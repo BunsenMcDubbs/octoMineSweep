@@ -5,6 +5,6 @@
 .project
 
 # Package Files #
-*.jar
+#*.jar #<-- need the gridworld jar file
 *.war
 *.ear
