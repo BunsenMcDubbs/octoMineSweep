@@ -10,7 +10,7 @@ public class Interactive {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Minesweeper m = new Minesweeper(1);
+		Minesweeper m = new Minesweeper(2);
 		Scanner sc = new Scanner(System.in);
 		int x = 0 , y = 0;
 		while(true){
