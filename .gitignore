@@ -4,6 +4,9 @@
 .classpath
 .project
 
+# Backups #
+/backup
+
 # Package Files #
 #*.jar #<-- need the gridworld jar file
 *.war
