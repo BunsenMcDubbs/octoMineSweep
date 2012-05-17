@@ -5,22 +5,42 @@ import javax.swing.Timer;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
 
+/**
+ * Minesweeper runs the backend game mechanics and runs of the game.
+ * It features 3 difficulty levels (Easy, Medium and Hard) each with
+ * different size boards and number of mines.</br>
+ * Minesweeper uses a BoundedGrid for the 2 dimensional array of Spots.
+ * 
+ * @author bunsenmcdubbs
+ *
+ */
 public class Minesweeper {
 	
-	private BoundedGrid grid;
+	private BoundedGrid<Spot> grid;
 	private int difficulty;
 	private Timer timer;
 	private int clicks;
 	
 	public static final int EASY = 1, MEDIUM = 2, HARD = 3;
 	
+	/**
+	 * Constructor for the game that takes an integer to define the
+	 * difficulty level of the game.
+	 * @param difficulty
+	 */
 	public Minesweeper(int difficulty){
 		init(difficulty);
 	}
+	
+	/**
+	 * 
+	 */
+	public Minesweeper(){
+		this(1);
+	}
 
-	@SuppressWarnings("unchecked")
-	private void init(int difficulty) {
-		this.difficulty = difficulty;
+	private void init(int d) {
+		difficulty = d;
 		int seed;
 		
 		switch(difficulty){
@@ -51,12 +71,13 @@ public class Minesweeper {
 	}
 	
 	public void open(Location loc){
-		if( clicks == 0 && ((Spot)(grid.get(loc))).isBomb()){
+		if( clicks == 0 && grid.get(loc).isBomb()){
 			moveBomb(loc);
 		}
-		if(Spot.BOMB == ((Spot)(grid.get(loc))).open()){
+		if(Spot.BOMB == grid.get(loc).open()){
 			gameOver();
 		}
+		clicks++;
 	}
 
 	private void moveBomb(Location loc) {
