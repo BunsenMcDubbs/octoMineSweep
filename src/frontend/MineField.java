@@ -18,6 +18,7 @@ public class MineField extends JComponent {
 		
 		BoundedGrid<Spot> grid = game.getGrid();
 		
+		
 	}
 
 	public void setGame(Minesweeper g){
