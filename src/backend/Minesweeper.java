@@ -1,26 +1,56 @@
 package backend;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.Timer;
 
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
 
-public class Minesweeper {
+/**
+ * Minesweeper runs the backend game mechanics and runs of the game.
+ * It features 3 difficulty levels (Easy, Medium and Hard) each with
+ * different size boards and number of mines.</br>
+ * Minesweeper uses a BoundedGrid for the 2 dimensional array of Spots.
+ * 
+ * @author bunsenmcdubbs
+ *
+ */
+public class Minesweeper implements ActionListener{
 	
-	private BoundedGrid grid;
+	private BoundedGrid<Spot> grid;
 	private int difficulty;
 	private Timer timer;
+	private double time;
 	private int clicks;
 	
 	public static final int EASY = 1, MEDIUM = 2, HARD = 3;
 	
+	/**
+	 * Constructor for the game that takes an integer to define the
+	 * difficulty level of the game.
+	 * @param difficulty
+	 */
 	public Minesweeper(int difficulty){
 		init(difficulty);
+		timerSetup();
+	}
+	
+	private void timerSetup() {
+		time = 0;
+		timer = new Timer(100, this);
 	}
 
-	@SuppressWarnings("unchecked")
-	private void init(int difficulty) {
-		this.difficulty = difficulty;
+	/**
+	 * 
+	 */
+	public Minesweeper(){
+		this(1);
+	}
+
+	private void init(int d) {
+		setDifficulty(d);
 		int seed;
 		
 		switch(difficulty){
@@ -51,12 +81,16 @@ public class Minesweeper {
 	}
 	
 	public void open(Location loc){
-		if( clicks == 0 && ((Spot)(grid.get(loc))).isBomb()){
+		if( clicks == 0){
+			timer.start();
+		}
+		if( clicks == 0 && grid.get(loc).isBomb()){
 			moveBomb(loc);
 		}
-		if(Spot.BOMB == ((Spot)(grid.get(loc))).open()){
+		if(Spot.BOMB == grid.get(loc).open()){
 			gameOver();
 		}
+		clicks++;
 	}
 
 	private void moveBomb(Location loc) {
@@ -82,6 +116,26 @@ public class Minesweeper {
 			}
 		}
 		return true;
+	}
+	
+	public BoundedGrid<Spot> grid(){
+		return grid;
+	}
+	
+	public int getDifficulty(){
+		return difficulty;
+	}
+	
+	public void setDifficulty(int d){
+		difficulty = d;
+	}
+	
+	public Timer getTimer(){
+		return timer;
+	}
+	
+	public double getTime(){
+		return time;
 	}
 	
 	private void win(){
@@ -143,6 +197,13 @@ public class Minesweeper {
 		}
 		s += "+";
 		return s;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == timer){
+			time += .1;
+		}
 	}
 
 }
