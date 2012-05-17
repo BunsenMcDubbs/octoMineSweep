@@ -1,5 +1,6 @@
 package frontend;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 
 import info.gridworld.grid.BoundedGrid;
@@ -40,6 +41,9 @@ public class MineField extends JComponent {
 
 	public void setGame(Minesweeper g){
 		game = g;
+	}
+	
+	private void refreshSpots(){
 	}
 	
 }

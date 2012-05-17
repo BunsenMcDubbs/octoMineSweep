@@ -104,7 +104,7 @@ public class Spot {
 	/**
 	 * @return the opened
 	 */
-	public boolean isOpened() {
+	public boolean isOpen() {
 		return opened;
 	}
 	

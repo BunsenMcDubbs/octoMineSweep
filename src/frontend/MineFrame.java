@@ -33,6 +33,7 @@ public class MineFrame extends JFrame {
 
 	private void setSize() {
 		setSize(mF.getSize());
+		setMinimumSize(getSize());
 	}
 
 	private void backend() {

@@ -108,7 +108,7 @@ public class Minesweeper implements ActionListener{
 		for(int r = 0; r < grid.getNumRows(); r++){
 			for(int c = 0; c < grid.getNumCols(); c++){
 				Spot s = (Spot)grid.get(new Location(r,c));
-				if(!s.isOpened()){
+				if(!s.isOpen()){
 					if(s.isBomb())
 						continue;
 					return false;
