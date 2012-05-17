@@ -118,7 +118,7 @@ public class Minesweeper implements ActionListener{
 		return true;
 	}
 	
-	public BoundedGrid<Spot> grid(){
+	public BoundedGrid<Spot> getGrid(){
 		return grid;
 	}
 	

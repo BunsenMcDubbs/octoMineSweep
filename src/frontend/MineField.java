@@ -1,5 +1,7 @@
 package frontend;
 
+import info.gridworld.grid.BoundedGrid;
+
 import javax.swing.JComponent;
 import backend.*;
 
@@ -13,7 +15,8 @@ public class MineField extends JComponent {
 	}
 	
 	private void setUp() {
-		// TODO Auto-generated method stub
+		
+		BoundedGrid<Spot> grid = game.getGrid();
 		
 	}
 
