@@ -25,12 +25,14 @@ public class MineFrame extends JFrame {
 		selector();
 		minefield();
 		
-		pack();
-		
-		setSize(new Dimension(100,100));
+		setSize();
 		
 		setVisible(true);
 		
+	}
+
+	private void setSize() {
+		setSize(mF.getSize());
 	}
 
 	private void backend() {
