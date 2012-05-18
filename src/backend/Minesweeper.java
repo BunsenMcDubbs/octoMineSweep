@@ -176,7 +176,7 @@ public class Minesweeper implements ActionListener{
 				Spot curr = (Spot)grid.get(new Location(r, c));
 				int n = curr.getState();
 				if(n == Spot.BOMB) s += "X ";
-				else if(n == Spot.CLOSED) s += "� ";
+				else if(n == Spot.CLOSED) s += "* ";
 				else if(n == Spot.FLAG)	s += "F ";
 				else s += "" + n + " ";
 			}
