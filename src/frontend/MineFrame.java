@@ -3,12 +3,16 @@ package frontend;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import backend.*;
+import backend.event.GameOverEvent;
+import backend.event.GameOverListener;
 
-public class MineFrame extends JFrame {
+public class MineFrame extends JFrame{
 	
 	private Minesweeper game;
 	private Timer timer;
@@ -54,5 +58,5 @@ public class MineFrame extends JFrame {
 	public Minesweeper getGame(){
 		return game;
 	}
-	
+
 }

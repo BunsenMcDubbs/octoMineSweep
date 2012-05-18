@@ -7,10 +7,14 @@ import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+
 import backend.*;
+import backend.event.GameOverEvent;
+import backend.event.GameOverListener;
 
 @SuppressWarnings("serial")
-public class MineField extends JComponent {
+public class MineField extends JComponent implements GameOverListener{
 	
 	private Minesweeper game;
 	
@@ -25,11 +29,14 @@ public class MineField extends JComponent {
 		setLayout(new GridLayout(grid.getNumRows(), grid.getNumCols(), 0, 0));
 		for(int r = 0; r < grid.getNumRows(); r++){
 			for(int c = 0; c < grid.getNumCols(); c++){
-				MineSpot s = new MineSpot(grid.get(new Location(r,c)));
+				MineSpot s = new MineSpot(grid.get(new Location(r,c)), game);
 				add(s);
 			}
 		}
 		setSize();
+		
+		game.addEventListener(this);
+		
 	}
 
 	private void setSize() {
@@ -43,7 +50,12 @@ public class MineField extends JComponent {
 		game = g;
 	}
 	
-	private void refreshSpots(){
+	@Override
+	public void handleEvent(GameOverEvent e) {
+		JOptionPane.showMessageDialog(this,
+			    "You triggered a bomb... you died.",
+			    "Game Over",
+			    JOptionPane.WARNING_MESSAGE);
 	}
 	
 }

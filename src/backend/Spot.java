@@ -122,7 +122,7 @@ public class Spot {
 	public int open(){
 		
 		fireEvent();
-		return discreetOpen();
+		return discreteOpen();
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class Spot {
 	 * it doesn't fire an opening event
 	 * @return
 	 */
-	public int discreetOpen(){
+	public int discreteOpen(){
 		if(flag){
 			opened = false;
 			return -1;

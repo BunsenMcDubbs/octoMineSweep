@@ -6,24 +6,31 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JToggleButton;
 
 import backend.*;
 import backend.event.*;
 
 @SuppressWarnings("serial")
-public class MineSpot extends JButton implements ActionListener, OpenedSpotEventListener {
+public class MineSpot extends JToggleButton implements ActionListener, OpenedSpotEventListener, GameOverListener {
 	
 	public static final int SIZE = 50;
 	
 	private Spot spot;
+	private Minesweeper game;
 	
-	public MineSpot(Spot s){
+	public MineSpot(Spot s, Minesweeper m){
 		setSpot(s);
+		setGame(m);
 		addActionListener(this);
 		spot.addEventListener(this);
 	}
 	
+	private void setGame(Minesweeper m) {
+		game = m;
+	}
+
 	public void setSpot(Spot s){
 		spot = s;
 	}
@@ -32,9 +39,14 @@ public class MineSpot extends JButton implements ActionListener, OpenedSpotEvent
 	public void paint(Graphics g){
 		if(spot.isOpen()){
 			Graphics2D g2 = (Graphics2D)g;
+			g2.fillRect(10,10,10,10);
 		}
 		else
 			super.paint(g);
+	}
+	
+	public Spot getSpot(){
+		return spot;
 	}
 
 	/**
@@ -42,7 +54,10 @@ public class MineSpot extends JButton implements ActionListener, OpenedSpotEvent
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		spot.discreetOpen();
+		if(!game.gameIsOver())
+			game.open(spot.loc);
+		else
+			spot.discreteOpen();
 	}
 
 	/**
@@ -51,7 +66,11 @@ public class MineSpot extends JButton implements ActionListener, OpenedSpotEvent
 	@Override
 	public void handleEvent(OpenedSpotEvent e) {
 		repaint();
+		doClick(0);
 	}
 
-	
+	@Override
+	public void handleEvent(GameOverEvent e) {
+		setEnabled(false);
+	}
 }

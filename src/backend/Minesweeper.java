@@ -2,8 +2,15 @@ package backend;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.Timer;
+
+import backend.event.GameOverEvent;
+import backend.event.GameOverListener;
+import backend.event.OpenedSpotEvent;
+import backend.event.OpenedSpotEventListener;
 
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
@@ -24,6 +31,7 @@ public class Minesweeper implements ActionListener{
 	private Timer timer;
 	private double time;
 	private int clicks;
+	private boolean gameOver;
 	
 	/**
 	 * Easy difficulty level
@@ -91,6 +99,7 @@ public class Minesweeper implements ActionListener{
 		}
 		
 		clicks = 0;
+		gameOver = false;
 	}
 	
 	public void open(int x, int y){
@@ -98,16 +107,18 @@ public class Minesweeper implements ActionListener{
 	}
 	
 	public void open(Location loc){
-		if( clicks == 0){
-			timer.start();
+		if (!grid.get(loc).isOpen()) {
+			if (clicks == 0) {
+				timer.start();
+			}
+			if (clicks == 0 && grid.get(loc).isBomb()) {
+				moveBomb(loc);
+			}
+			if (Spot.BOMB == grid.get(loc).discreteOpen()) {
+				gameOver();
+			}
+			clicks++;
 		}
-		if( clicks == 0 && grid.get(loc).isBomb()){
-			moveBomb(loc);
-		}
-		if(Spot.BOMB == grid.get(loc).open()){
-			gameOver();
-		}
-		clicks++;
 	}
 
 	private void moveBomb(Location loc) {
@@ -161,8 +172,19 @@ public class Minesweeper implements ActionListener{
 	
 	private void gameOver(){
 		System.out.println("GAME OVER");
+		fireEvent();
+		gameOver = true;
+		revealAll();
 	}
 	
+	private void revealAll() {
+		for(int r = 0; r < grid.getNumRows(); r++){
+			for(int c = 0; c < grid.getNumCols(); c++){
+				grid.get(new Location(r,c)).open();
+			}
+		}
+	}
+
 	public String toString(){
 		String s = "Minesweeper\n";
 		s += "+";
@@ -220,6 +242,31 @@ public class Minesweeper implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == timer){
 			time += .1;
+		}
+	}
+	
+	public boolean gameIsOver(){
+		return gameOver;
+	}
+	
+	private ArrayList<GameOverListener> listeners = new ArrayList<GameOverListener>();
+
+	public synchronized void addEventListener(GameOverListener listener) {
+		listeners.add(listener);
+	}
+
+	public synchronized void removeEventListener(
+			GameOverListener listener) {
+		listeners.remove(listener);
+	}
+
+	// call this method whenever you want to notify
+	// the event listeners of the particular event
+	private synchronized void fireEvent() {
+		GameOverEvent event = new GameOverEvent(this);
+		Iterator<GameOverListener> i = listeners.iterator();
+		while (i.hasNext()) {
+			((GameOverListener) i.next()).handleEvent(event);
 		}
 	}
 
