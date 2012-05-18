@@ -5,6 +5,10 @@ import info.gridworld.grid.Location;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import backend.event.OpenedSpotEvent;
+import backend.event.OpenedSpotEventListener;
 
 public class Spot {
 	
@@ -12,7 +16,7 @@ public class Spot {
 	private boolean bomb;
 	private boolean opened;
 	public final Location loc;
-	private Grid grid;
+	private Grid<Spot> grid;
 	
 	public static final int ZERO = 0;
 	public static final int ONE = 1;
@@ -28,7 +32,7 @@ public class Spot {
 	public static final int BOMB = 9;
 	public static final int CLOSED = 10;
 	
-	public Spot(Location location, Grid g, boolean bomb){
+	public Spot(Location location, Grid<Spot> g, boolean bomb){
 		loc = location;
 		grid = g;
 		flag = false;
@@ -116,6 +120,18 @@ public class Spot {
 	 * 0-8 for the number of bombs around the spot
 	 */
 	public int open(){
+		
+		fireEvent();
+		return discreetOpen();
+	}
+	
+	/**
+	 * used in conjunction with the GUI, if the button (MineSpot) is the 
+	 * source of the opening this method prevents an infinite loop since
+	 * it doesn't fire an opening event
+	 * @return
+	 */
+	public int discreetOpen(){
 		if(flag){
 			opened = false;
 			return -1;
@@ -126,16 +142,35 @@ public class Spot {
 		}
 		opened = true;
 		if (getBombCount() == 0){
-			@SuppressWarnings("unchecked")
 			ArrayList<Spot> n = grid.getNeighbors(loc);
 			for(Spot s : n){
 				if(!s.opened)
 					s.open();
 			}
 		}
-		return getBombCount();
 		
+		return getBombCount();
 	}
 	
+	private ArrayList<OpenedSpotEventListener> listeners = new ArrayList<OpenedSpotEventListener>();
+
+	public synchronized void addEventListener(OpenedSpotEventListener listener) {
+		listeners.add(listener);
+	}
+
+	public synchronized void removeEventListener(
+			OpenedSpotEventListener listener) {
+		listeners.remove(listener);
+	}
+
+	// call this method whenever you want to notify
+	// the event listeners of the particular event
+	private synchronized void fireEvent() {
+		OpenedSpotEvent event = new OpenedSpotEvent(this);
+		Iterator<OpenedSpotEventListener> i = listeners.iterator();
+		while (i.hasNext()) {
+			((OpenedSpotEventListener) i.next()).handleEvent(event);
+		}
+	}
 	
 }

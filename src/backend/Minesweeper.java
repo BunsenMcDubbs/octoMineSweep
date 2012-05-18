@@ -25,7 +25,23 @@ public class Minesweeper implements ActionListener{
 	private double time;
 	private int clicks;
 	
-	public static final int EASY = 1, MEDIUM = 2, HARD = 3;
+	/**
+	 * Easy difficulty level
+	 * 9 by 9 board with 10 bombs
+	 */
+	public static final int EASY = 1;
+	
+	/**
+	 * Medium difficulty level
+	 * 16 by 16 board with 40 bombs
+	 */
+	public static final int MEDIUM = 2;
+	
+	/**
+	 * Hard difficulty level
+	 * 30 by 16 board with 99 bombs
+	 */
+	public static final int HARD = 3;
 	
 	/**
 	 * Constructor for the game that takes an integer to define the
@@ -43,7 +59,8 @@ public class Minesweeper implements ActionListener{
 	}
 
 	/**
-	 * 
+	 * Default constructor for the Minesweeper game, assumes a difficulty
+	 * level of 1 or EASY
 	 */
 	public Minesweeper(){
 		this(1);
@@ -159,7 +176,7 @@ public class Minesweeper implements ActionListener{
 				Spot curr = (Spot)grid.get(new Location(r, c));
 				int n = curr.getState();
 				if(n == Spot.BOMB) s += "X ";
-				else if(n == Spot.CLOSED) s += "¥ ";
+				else if(n == Spot.CLOSED) s += "ï¿½ ";
 				else if(n == Spot.FLAG)	s += "F ";
 				else s += "" + n + " ";
 			}

@@ -10,6 +10,7 @@ public class Gui {
 	 */
 	public static void main(String[] args) {
 		MineFrame mF = new MineFrame();
+		System.out.println(mF.getGame().testString());
 	}
 
 }

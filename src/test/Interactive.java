@@ -15,7 +15,7 @@ public class Interactive {
 		int x = 0 , y = 0;
 		while(true){
 			System.out.println(m);
-			System.out.println(m.testString());
+//			System.out.println(m.testString());
 			System.out.print("\nX coordinate\t");
 			x = sc.nextInt();
 			if(x == -1)

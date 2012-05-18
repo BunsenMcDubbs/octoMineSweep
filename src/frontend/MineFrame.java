@@ -51,4 +51,8 @@ public class MineFrame extends JFrame {
 		this.add(mF);
 	}
 	
+	public Minesweeper getGame(){
+		return game;
+	}
+	
 }
