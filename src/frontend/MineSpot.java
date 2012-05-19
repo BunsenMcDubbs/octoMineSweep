@@ -13,39 +13,63 @@ import backend.*;
 import backend.event.*;
 
 @SuppressWarnings("serial")
-public class MineSpot extends JToggleButton implements ActionListener, OpenedSpotEventListener, GameEndListener {
-	
+public class MineSpot extends JToggleButton implements ActionListener,
+		OpenedSpotEventListener, GameEndListener {
+
 	public static final int SIZE = 50;
-	
+
 	private Spot spot;
 	private Minesweeper game;
-	
-	public MineSpot(Spot s, Minesweeper m){
+
+	public MineSpot(Spot s, Minesweeper m) {
 		setSpot(s);
 		setGame(m);
 		addActionListener(this);
 		spot.addEventListener(this);
 	}
-	
+
 	private void setGame(Minesweeper m) {
 		game = m;
 	}
 
-	public void setSpot(Spot s){
+	public void setSpot(Spot s) {
 		spot = s;
 	}
-	
+
 	@Override
-	public void paint(Graphics g){
-		if(spot.isOpen()){
-			Graphics2D g2 = (Graphics2D)g;
-			g2.fillRect(10,10,10,10);
+	public void paint(Graphics g) {
+		if (spot.isOpen()) {
+			Graphics2D g2 = (Graphics2D) g;
+			switch (spot.getState()) {
+			case 0:
+				g2.setColor(Color.WHITE); break;
+			case 1:
+				g2.setColor(Color.BLUE); break;
+			case 2:
+				g2.setColor(Color.GREEN); break;
+			case 3:
+				g2.setColor(Color.RED); break;
+			case 4:
+				g2.setColor(Color.MAGENTA); break;
+			case 5:
+				g2.setColor(Color.CYAN); break;
+			case 6:
+				g2.setColor(Color.ORANGE); break;
+			case 7:
+				g2.setColor(Color.PINK); break;
+			case 8:
+				g2.setColor(Color.YELLOW); break;
+			case -1:
+				g2.setColor(Color.DARK_GRAY); break;
+			}
+			g2.fill3DRect(10, 10, 30, 30, true);
+//			g2.drawString("herro", 0, 0);
 		}
 		else
 			super.paint(g);
 	}
-	
-	public Spot getSpot(){
+
+	public Spot getSpot() {
 		return spot;
 	}
 
@@ -54,8 +78,15 @@ public class MineSpot extends JToggleButton implements ActionListener, OpenedSpo
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(!game.gameIsOver())
-			game.open(spot.loc);
+		if (!game.gameIsOver()){
+			int mods = e.getModifiers();
+			if(mods == ActionEvent.CTRL_MASK || mods == ActionEvent.SHIFT_MASK || mods == ActionEvent.ALT_MASK){
+				spot.toggleFlag();
+				System.out.println("Masked");
+			}
+			else
+				game.open(spot.loc);
+		}
 		else
 			spot.discreteOpen();
 	}
