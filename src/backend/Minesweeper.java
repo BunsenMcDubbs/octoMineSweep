@@ -29,7 +29,8 @@ public class Minesweeper implements ActionListener {
 	private BoundedGrid<Spot> grid;
 	private int difficulty;
 	private Timer timer;
-	private double time;
+	//tenths of second
+	private int time;
 	private int clicks;
 	private boolean gameOver;
 
@@ -77,7 +78,7 @@ public class Minesweeper implements ActionListener {
 		this(1);
 	}
 
-	private void init(int d) {
+	public void init(int d) {
 		setDifficulty(d);
 		int seed;
 
@@ -196,7 +197,7 @@ public class Minesweeper implements ActionListener {
 		return timer;
 	}
 
-	public double getTime() {
+	public int getTime() {
 		return time;
 	}
 
@@ -284,7 +285,7 @@ public class Minesweeper implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == timer) {
-			time += .1;
+			time += 1;
 		}
 	}
 
@@ -305,6 +306,7 @@ public class Minesweeper implements ActionListener {
 	// call this method whenever you want to notify
 	// the event listeners of the particular event
 	private synchronized void fireEvent(boolean win) {
+		timer.stop();
 		GameEndEvent event = new GameEndEvent(this, win);
 		Iterator<GameEndListener> i = listeners.iterator();
 		while (i.hasNext()) {
