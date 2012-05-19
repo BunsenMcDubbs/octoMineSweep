@@ -54,15 +54,24 @@ public class MineField extends JComponent implements GameEndListener{
 	public void handleEvent(GameEndEvent e) {
 		if(e.isWinner()){
 			JOptionPane.showMessageDialog(this,
-				    "The Mines have been Sweeped... you win",
+				    "The Mines have been Sweeped... you win\n" + ((Minesweeper)e.getSource()).getTime(),
 				    "Winner",
 				    JOptionPane.WARNING_MESSAGE);
+			System.out.println(((Minesweeper)e.getSource()).getTime());
 		}
 		else{
 			JOptionPane.showMessageDialog(this,
 				    "You triggered a bomb... you died.",
 				    "Game Over",
 				    JOptionPane.WARNING_MESSAGE);
+		}
+		
+		disableAll();
+	}
+
+	private void disableAll() {
+		for(Component s : getComponents()){
+			((MineSpot)s).setEnabled(false);
 		}
 	}
 	
