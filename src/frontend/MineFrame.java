@@ -57,7 +57,7 @@ public class MineFrame extends JFrame implements FocusListener{
 	}
 
 	private void selector() {
-		// TODO Auto-generated method stub
+		// TODO make a selection screen
 		
 	}
 
@@ -80,6 +80,7 @@ public class MineFrame extends JFrame implements FocusListener{
 	}
 	
 	public void setDifficulty(int d) {
+		// TODO bugs with refreshing and generating new displays
 		Minesweeper newGame = new Minesweeper(d);
 		setGame(newGame);
 		remove(mF);
@@ -90,7 +91,7 @@ public class MineFrame extends JFrame implements FocusListener{
 	@Override
 	public void focusGained(FocusEvent e) {
 		System.out.println("Gained focus");
-		if(!game.isFinished())
+		if(!game.isFinished()) // TODO not working properly in game
 			timer.start();
 	}
 
