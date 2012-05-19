@@ -2,6 +2,8 @@ package frontend;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -12,7 +14,7 @@ import backend.*;
 import backend.event.GameEndEvent;
 import backend.event.GameEndListener;
 
-public class MineFrame extends JFrame{
+public class MineFrame extends JFrame implements FocusListener{
 	
 	private Minesweeper game;
 	private Timer timer;
@@ -29,6 +31,10 @@ public class MineFrame extends JFrame{
 		selector();
 		minefield();
 		
+		addFocusListener(this);
+		
+		add(new TimeDisplay(game), BorderLayout.NORTH);
+		
 		setSize();
 		
 		setVisible(true);
@@ -39,9 +45,13 @@ public class MineFrame extends JFrame{
 		setSize(mF.getSize());
 		setMinimumSize(getSize());
 	}
+	
+	private void backend(){
+		backend(1);
+	}
 
-	private void backend() {
-		game = new Minesweeper();
+	private void backend(int d) {
+		setGame(new Minesweeper(d));
 		timer = game.getTimer();
 	}
 
@@ -52,11 +62,41 @@ public class MineFrame extends JFrame{
 
 	private void minefield() {
 		mF = new MineField(game);
-		this.add(mF);
+		this.add(mF, BorderLayout.CENTER);
+		repaint();
 	}
 	
 	public Minesweeper getGame(){
 		return game;
+	}
+	
+	public void setGame(Minesweeper m){
+		game = m;
+	}
+	
+	public MineField getField(){
+		return mF;
+	}
+	
+	public void setDifficulty(int d) {
+		Minesweeper newGame = new Minesweeper(d);
+		setGame(newGame);
+		remove(mF);
+		minefield();
+		setSize();
+	}
+
+	@Override
+	public void focusGained(FocusEvent e) {
+		System.out.println("Gained focus");
+		if(!game.isFinished())
+			timer.start();
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		System.out.println("Lost focus");
+		timer.stop();
 	}
 
 }
