@@ -13,7 +13,7 @@ import backend.*;
 import backend.event.*;
 
 @SuppressWarnings("serial")
-public class MineSpot extends JToggleButton implements ActionListener, OpenedSpotEventListener, GameOverListener {
+public class MineSpot extends JToggleButton implements ActionListener, OpenedSpotEventListener, GameEndListener {
 	
 	public static final int SIZE = 50;
 	
@@ -70,7 +70,7 @@ public class MineSpot extends JToggleButton implements ActionListener, OpenedSpo
 	}
 
 	@Override
-	public void handleEvent(GameOverEvent e) {
+	public void handleEvent(GameEndEvent e) {
 		setEnabled(false);
 	}
 }

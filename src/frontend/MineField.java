@@ -10,11 +10,11 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 import backend.*;
-import backend.event.GameOverEvent;
-import backend.event.GameOverListener;
+import backend.event.GameEndEvent;
+import backend.event.GameEndListener;
 
 @SuppressWarnings("serial")
-public class MineField extends JComponent implements GameOverListener{
+public class MineField extends JComponent implements GameEndListener{
 	
 	private Minesweeper game;
 	
@@ -51,11 +51,19 @@ public class MineField extends JComponent implements GameOverListener{
 	}
 	
 	@Override
-	public void handleEvent(GameOverEvent e) {
-		JOptionPane.showMessageDialog(this,
-			    "You triggered a bomb... you died.",
-			    "Game Over",
-			    JOptionPane.WARNING_MESSAGE);
+	public void handleEvent(GameEndEvent e) {
+		if(e.isWinner()){
+			JOptionPane.showMessageDialog(this,
+				    "The Mines have been Sweeped... you win",
+				    "Winner",
+				    JOptionPane.WARNING_MESSAGE);
+		}
+		else{
+			JOptionPane.showMessageDialog(this,
+				    "You triggered a bomb... you died.",
+				    "Game Over",
+				    JOptionPane.WARNING_MESSAGE);
+		}
 	}
 	
 }

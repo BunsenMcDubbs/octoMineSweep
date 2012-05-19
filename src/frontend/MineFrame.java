@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import backend.*;
-import backend.event.GameOverEvent;
-import backend.event.GameOverListener;
+import backend.event.GameEndEvent;
+import backend.event.GameEndListener;
 
 public class MineFrame extends JFrame{
 	
