@@ -42,7 +42,8 @@ public class MineFrame extends JFrame implements FocusListener{
 	}
 
 	private void setSize() {
-		setSize(mF.getSize());
+		Dimension s = new Dimension(mF.getSize().width, mF.getSize().height + TimeDisplay.TEXT_HEIGHT);
+		setSize(s);
 		setMinimumSize(getSize());
 	}
 	

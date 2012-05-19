@@ -11,11 +11,13 @@ import backend.Minesweeper;
 
 public class TimeDisplay extends JLabel implements ActionListener{
 	
+	public static final int TEXT_HEIGHT = 36;
+	
 	private Minesweeper game;
 	
 	public TimeDisplay(Minesweeper m){
 		super();
-		super.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 36));
+		super.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, TEXT_HEIGHT));
 		super.setHorizontalAlignment(JLabel.CENTER);
 		game = m;
 		m.getTimer().addActionListener(this);
