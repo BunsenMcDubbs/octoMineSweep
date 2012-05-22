@@ -5,14 +5,10 @@ import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import backend.*;
-import backend.event.GameEndEvent;
-import backend.event.GameEndListener;
 
 public class MineFrame extends JFrame implements FocusListener{
 	
