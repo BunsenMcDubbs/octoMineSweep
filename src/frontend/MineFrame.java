@@ -31,8 +31,11 @@ public class MineFrame extends JFrame implements FocusListener{
 		selector();
 		minefield();
 		
+		//Setting the focus 
 		addFocusListener(this);
+		super.setFocusable(true);
 		
+		//Adding the TimerDisplay to the top
 		add(new TimeDisplay(game), BorderLayout.NORTH);
 		
 		setSize();
@@ -91,7 +94,7 @@ public class MineFrame extends JFrame implements FocusListener{
 	@Override
 	public void focusGained(FocusEvent e) {
 		System.out.println("Gained focus");
-		if(!game.isFinished()) // TODO not working properly in game
+		if(game.gameIsActive() && !game.isFinished()) // TODO not working properly in game
 			timer.start();
 	}
 

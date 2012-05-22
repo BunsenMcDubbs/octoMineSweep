@@ -32,7 +32,7 @@ public class Minesweeper implements ActionListener {
 	//tenths of second
 	private int time;
 	private int clicks;
-	private boolean gameOver;
+	private boolean gameActive;
 
 	/**
 	 * Easy difficulty level 9 by 9 board with 10 bombs
@@ -115,7 +115,7 @@ public class Minesweeper implements ActionListener {
 		}
 
 		clicks = 0;
-		gameOver = false;
+		gameActive = false;
 	}
 
 	public void open(int x, int y) {
@@ -204,13 +204,13 @@ public class Minesweeper implements ActionListener {
 	private void win() {
 		System.out.println("WINNER WINNER CHICKEN DINNER");
 		fireEvent(true);
-		gameOver = true;
+		gameActive = false;
 	}
 
 	private void gameOver() {
 		System.out.println("GAME OVER");
 		fireEvent(false);
-		gameOver = true;
+		gameActive = false;
 		revealAll();
 	}
 
@@ -289,8 +289,8 @@ public class Minesweeper implements ActionListener {
 		}
 	}
 
-	public boolean gameIsOver() {
-		return gameOver;
+	public boolean gameIsActive() {
+		return gameActive;
 	}
 
 	private ArrayList<GameEndListener> listeners = new ArrayList<GameEndListener>();
