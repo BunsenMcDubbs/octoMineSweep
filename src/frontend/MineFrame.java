@@ -87,6 +87,7 @@ public class MineFrame extends JFrame implements FocusListener{
 		setSize();
 	}
 
+	//Frame loses focus when the buttons are pressed
 	@Override
 	public void focusGained(FocusEvent e) {
 		System.out.println("Gained focus");
