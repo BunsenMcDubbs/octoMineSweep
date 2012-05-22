@@ -2,6 +2,8 @@ package frontend;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
@@ -14,7 +16,7 @@ import backend.event.GameEndEvent;
 import backend.event.GameEndListener;
 
 @SuppressWarnings("serial")
-public class MineField extends JComponent implements GameEndListener{
+public class MineField extends JComponent implements GameEndListener, MouseListener{
 	
 	private Minesweeper game;
 	
@@ -74,5 +76,35 @@ public class MineField extends JComponent implements GameEndListener{
 			((MineSpot)s).setEnabled(false);
 		}
 	}
+
+	// TODO NOT WORKING
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getButton() == MouseEvent.BUTTON3){
+			for(Component c : getComponents()){
+				MineSpot s = (MineSpot)c;
+				if(s.contains(e.getPoint())){
+					System.out.println("Contained in " + s);
+					s.getSpot().toggleFlag();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Use instead of focus?
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Use instead of focus?
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {}
+	@Override
+	public void mouseReleased(MouseEvent arg0) {}
 	
 }

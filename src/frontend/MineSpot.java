@@ -79,13 +79,9 @@ public class MineSpot extends JToggleButton implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (!game.gameIsActive()){
-			int mods = e.getModifiers();
-			if(mods == ActionEvent.CTRL_MASK || mods == ActionEvent.SHIFT_MASK || mods == ActionEvent.ALT_MASK){
-				spot.toggleFlag();
-				System.out.println("Masked");
-			}
-			else
+			if(!spot.isFlagged())
 				game.open(spot.loc);
+			else return;
 		}
 		else
 			spot.discreteOpen();
