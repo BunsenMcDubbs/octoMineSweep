@@ -4,9 +4,9 @@ import java.util.EventObject;
 
 import backend.*;
 
-public class OpenedSpotEvent extends EventObject {
+public class ClickedSpotEvent extends EventObject {
 
-	public OpenedSpotEvent(Spot source) {
+	public ClickedSpotEvent(Spot source) {
 		super(source);
 	}
 

@@ -9,8 +9,8 @@ import javax.swing.Timer;
 
 import backend.event.GameEndEvent;
 import backend.event.GameEndListener;
-import backend.event.OpenedSpotEvent;
-import backend.event.OpenedSpotEventListener;
+import backend.event.ClickedSpotEvent;
+import backend.event.ClickedSpotEventListener;
 
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
@@ -136,6 +136,7 @@ public class Minesweeper implements ActionListener {
 				return;
 			}
 			clicks++;
+			// TODO make dynamic
 			int totalSpots = 0;
 			if(difficulty == EASY){
 				totalSpots = 71;
@@ -214,11 +215,11 @@ public class Minesweeper implements ActionListener {
 		revealAll();
 	}
 
-	// TODO find calls and only open bombs
 	private void revealAll() {
 		for (int r = 0; r < grid.getNumRows(); r++) {
 			for (int c = 0; c < grid.getNumCols(); c++) {
-				grid.get(new Location(r, c)).open();
+				if(grid.get(new Location(r,c)).isBomb())
+					grid.get(new Location(r, c)).open();
 			}
 		}
 	}

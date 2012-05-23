@@ -14,7 +14,7 @@ import backend.event.*;
 
 @SuppressWarnings("serial")
 public class MineSpot extends JToggleButton implements ActionListener,
-		OpenedSpotEventListener, GameEndListener {
+		ClickedSpotEventListener, GameEndListener {
 
 	public static final int SIZE = 50;
 
@@ -26,6 +26,7 @@ public class MineSpot extends JToggleButton implements ActionListener,
 		setGame(m);
 		addActionListener(this);
 		spot.addEventListener(this);
+		game.addEventListener(this);
 	}
 
 	private void setGame(Minesweeper m) {
@@ -91,7 +92,7 @@ public class MineSpot extends JToggleButton implements ActionListener,
 	 * Event Listener for the Spot's opening event
 	 */
 	@Override
-	public void handleEvent(OpenedSpotEvent e) {
+	public void handleEvent(ClickedSpotEvent e) {
 		repaint();
 		doClick(0);
 	}

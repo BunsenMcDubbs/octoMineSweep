@@ -7,8 +7,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import backend.event.OpenedSpotEvent;
-import backend.event.OpenedSpotEventListener;
+import backend.event.ClickedSpotEvent;
+import backend.event.ClickedSpotEventListener;
 
 public class Spot {
 	
@@ -62,7 +62,7 @@ public class Spot {
 	 * toggles the flag
 	 */
 	public void toggleFlag(){
-		System.out.println("flag Toggled");
+		System.out.println("flag Toggled at " + loc);
 		flag = !flag;
 	}
 	/**
@@ -153,24 +153,24 @@ public class Spot {
 		return getBombCount();
 	}
 	
-	private ArrayList<OpenedSpotEventListener> listeners = new ArrayList<OpenedSpotEventListener>();
+	private ArrayList<ClickedSpotEventListener> listeners = new ArrayList<ClickedSpotEventListener>();
 
-	public synchronized void addEventListener(OpenedSpotEventListener listener) {
+	public synchronized void addEventListener(ClickedSpotEventListener listener) {
 		listeners.add(listener);
 	}
 
 	public synchronized void removeEventListener(
-			OpenedSpotEventListener listener) {
+			ClickedSpotEventListener listener) {
 		listeners.remove(listener);
 	}
 
 	// call this method whenever you want to notify
 	// the event listeners of the particular event
 	private synchronized void fireEvent() {
-		OpenedSpotEvent event = new OpenedSpotEvent(this);
-		Iterator<OpenedSpotEventListener> i = listeners.iterator();
+		ClickedSpotEvent event = new ClickedSpotEvent(this);
+		Iterator<ClickedSpotEventListener> i = listeners.iterator();
 		while (i.hasNext()) {
-			((OpenedSpotEventListener) i.next()).handleEvent(event);
+			((ClickedSpotEventListener) i.next()).handleEvent(event);
 		}
 	}
 	
