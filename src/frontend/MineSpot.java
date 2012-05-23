@@ -12,11 +12,12 @@ import javax.swing.JToggleButton;
 import backend.*;
 import backend.event.*;
 
+// TODO stop extending Jtogglebutton
 @SuppressWarnings("serial")
 public class MineSpot extends JToggleButton implements ActionListener,
 		ClickedSpotEventListener, GameEndListener {
 
-	public static final int SIZE = 50;
+	public static final int SIZE = 40;
 
 	private Spot spot;
 	private Minesweeper game;
@@ -79,6 +80,7 @@ public class MineSpot extends JToggleButton implements ActionListener,
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		if (!game.isActive()){
 			if(!spot.isFlagged())
 				game.open(spot.loc);
