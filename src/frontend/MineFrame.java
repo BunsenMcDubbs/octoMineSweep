@@ -10,7 +10,7 @@ import javax.swing.Timer;
 
 import backend.*;
 
-public class MineFrame extends JFrame implements FocusListener{
+public class MineFrame extends JFrame{
 	
 	private Minesweeper game;
 	private Timer timer;
@@ -26,10 +26,6 @@ public class MineFrame extends JFrame implements FocusListener{
 		backend();
 		selector();
 		minefield();
-		
-		//Setting the focus 
-		addFocusListener(this);
-		super.setFocusable(true);
 		
 		//Adding the TimerDisplay to the top
 		add(new TimeDisplay(game), BorderLayout.NORTH);
@@ -86,19 +82,4 @@ public class MineFrame extends JFrame implements FocusListener{
 		minefield();
 		setSize();
 	}
-
-	//Frame loses focus when the buttons are pressed
-	@Override
-	public void focusGained(FocusEvent e) {
-		System.out.println("Gained focus");
-		if(game.gameIsActive() && !game.isFinished()) // TODO not working properly in game
-			timer.start();
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		System.out.println("Lost focus");
-		timer.stop();
-	}
-
 }

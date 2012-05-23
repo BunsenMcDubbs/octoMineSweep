@@ -214,6 +214,7 @@ public class Minesweeper implements ActionListener {
 		revealAll();
 	}
 
+	// TODO find calls and only open bombs
 	private void revealAll() {
 		for (int r = 0; r < grid.getNumRows(); r++) {
 			for (int c = 0; c < grid.getNumCols(); c++) {
@@ -289,7 +290,7 @@ public class Minesweeper implements ActionListener {
 		}
 	}
 
-	public boolean gameIsActive() {
+	public boolean isActive() {
 		return gameActive;
 	}
 

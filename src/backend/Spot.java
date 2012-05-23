@@ -62,6 +62,7 @@ public class Spot {
 	 * toggles the flag
 	 */
 	public void toggleFlag(){
+		System.out.println("flag Toggled");
 		flag = !flag;
 	}
 	/**

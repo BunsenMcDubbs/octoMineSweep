@@ -78,7 +78,7 @@ public class MineSpot extends JToggleButton implements ActionListener,
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (!game.gameIsActive()){
+		if (!game.isActive()){
 			if(!spot.isFlagged())
 				game.open(spot.loc);
 			else return;

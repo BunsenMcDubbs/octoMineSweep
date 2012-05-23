@@ -2,6 +2,7 @@ package frontend;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -23,6 +24,7 @@ public class MineField extends JComponent implements GameEndListener, MouseListe
 	public MineField(Minesweeper game){
 		setGame(game);
 		setUp();
+		addMouseListener(this);
 	}
 	
 	private void setUp() {
@@ -68,38 +70,28 @@ public class MineField extends JComponent implements GameEndListener, MouseListe
 				    JOptionPane.WARNING_MESSAGE);
 		}
 		
-		disableAll();
-	}
-
-	private void disableAll() {
-		for(Component s : getComponents()){
-			((MineSpot)s).setEnabled(false);
-		}
 	}
 
 	// TODO NOT WORKING
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3){
-			for(Component c : getComponents()){
-				MineSpot s = (MineSpot)c;
-				if(s.contains(e.getPoint())){
-					System.out.println("Contained in " + s);
-					s.getSpot().toggleFlag();
-				}
-			}
-		}
+		Point p = e.getPoint();
+		int c = p.x/MineSpot.SIZE;
+		int r = p.y/MineSpot.SIZE;
+		game.getGrid().get(new Location(r,c)).toggleFlag();
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Use instead of focus?
+		System.out.println("Entered");
+		if(!game.isFinished())
+			game.getTimer().start();
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Use instead of focus?
-		
+		System.out.println("Exited");
+		game.getTimer().stop();
 	}
 
 	@Override
