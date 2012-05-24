@@ -73,12 +73,6 @@ public class MineField extends JComponent implements GameEndListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.isMetaDown()) {
-			Location loc = ((MineSpot)e.getComponent()).getSpot().loc;
-			int c = loc.getCol();
-			int r = loc.getRow();
-			game.getGrid().get(new Location(r, c)).toggleFlag();
-		}
 	}
 
 	@Override

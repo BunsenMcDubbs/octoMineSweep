@@ -16,6 +16,8 @@ public class Gui {
 	 */
 	public static void main(String[] args) {
 		MineFrame m = new MineFrame();
+		m.getGame().getGrid().get(new Location(0,0)).toggleFlag();
+		m.getGame().getGrid().get(new Location(0,0)).toggleFlag();
 		// TODO fix updating difficulty/new game refreshing functionality
 //		mF.setDifficulty(1);
 		

@@ -64,6 +64,7 @@ public class Spot {
 	public void toggleFlag(){
 		System.out.println("flag Toggled at " + loc);
 		flag = !flag;
+		fireEvent(false);
 	}
 	/**
 	 * @return the bomb
@@ -122,7 +123,7 @@ public class Spot {
 	 */
 	public int open(){
 		
-		fireEvent();
+		fireEvent(true);
 		if(flag){
 			opened = false;
 			return -1;
@@ -156,8 +157,12 @@ public class Spot {
 
 	// call this method whenever you want to notify
 	// the event listeners of the particular event
-	private synchronized void fireEvent() {
-		ClickedSpotEvent event = new ClickedSpotEvent(this);
+	private synchronized void fireEvent(boolean click) {
+		ClickedSpotEvent event = null;
+		if(click)
+			event = new ClickedSpotEvent(this, ClickedSpotEvent.CLICK);
+		else
+			event = new ClickedSpotEvent(this, ClickedSpotEvent.FLAG);
 		Iterator<ClickedSpotEventListener> i = listeners.iterator();
 		while (i.hasNext()) {
 			((ClickedSpotEventListener) i.next()).handleEvent(event);

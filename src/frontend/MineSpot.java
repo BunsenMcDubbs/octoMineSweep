@@ -71,9 +71,11 @@ public class MineSpot extends JComponent implements
 				g2.setColor(Color.PINK); break;
 			case 8:
 				g2.setColor(Color.YELLOW); break;
-			case Spot.FLAG:
-				g2.setColor(Color.DARK_GRAY); break;
+//			case Spot.FLAG:
+//				g2.setColor(Color.PINK); break;
 			}
+			if(spot.isFlagged())
+				g2.setColor(Color.PINK);
 			g2.fill3DRect(0, 0, MineSpot.SIZE, MineSpot.SIZE, true);
 			g2.drawString("herro", 0, 0);
 		}
@@ -108,7 +110,8 @@ public class MineSpot extends JComponent implements
 	@Override
 	public void handleEvent(ClickedSpotEvent e) {
 		repaint();
-		setEnabled(false);
+		if(e.getStatus() == ClickedSpotEvent.CLICK)
+			setEnabled(false);
 	}
 
 	@Override
@@ -126,15 +129,16 @@ public class MineSpot extends JComponent implements
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (enabled) {
-			if(e.getButton() == MouseEvent.BUTTON1){
-				if(!spot.isFlagged())
-					game.open(spot.loc);
-			}
-			else if (e.getButton() == MouseEvent.BUTTON3){
-				spot.toggleFlag();
-			}
-		}
+//		if (enabled) {
+//			if(e.getButton() == MouseEvent.BUTTON1){
+//				if(!spot.isFlagged())
+//					game.open(spot.loc);
+//			}
+//			else if (e.getButton() == MouseEvent.BUTTON3){
+//				System.out.println("L:KEjrl;KEJFL:KEJRL:KJ");
+//				spot.toggleFlag();
+//			}
+//		}
 	}
 
 	@Override
@@ -148,7 +152,18 @@ public class MineSpot extends JComponent implements
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {
+		if (enabled) {
+			if(e.getButton() == MouseEvent.BUTTON1){
+				if(!spot.isFlagged())
+					game.open(spot.loc);
+			}
+			else if (e.getButton() == MouseEvent.BUTTON3){
+				System.out.println("L:KEjrl;KEJFL:KEJRL:KJ");
+				spot.toggleFlag();
+			}
+		}
+	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {}
