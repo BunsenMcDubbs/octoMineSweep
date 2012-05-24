@@ -16,15 +16,12 @@ public class Gui {
 	 */
 	public static void main(String[] args) {
 		MineFrame m = new MineFrame();
-		m.getGame().getGrid().get(new Location(0,0)).toggleFlag();
-		m.getGame().getGrid().get(new Location(0,0)).toggleFlag();
 		// TODO fix updating difficulty/new game refreshing functionality
 //		mF.setDifficulty(1);
 		
-//		for( Component c : mF.getField().getComponents())
-//			if(!((MineSpot)c).getSpot().isBomb())
-//				((MineSpot)c).getSpot().open();
-		m.repaint();
+		for( Component c : m.getField().getComponents())
+			if(!((MineSpot)c).getSpot().isBomb())
+				m.getGame().open(((MineSpot)c).getSpot().loc);
 		System.out.println(m.getGame().testString());
 	}
 

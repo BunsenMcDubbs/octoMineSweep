@@ -128,9 +128,8 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		if (!grid.get(loc).isOpen()) {
 			if (clicks == 0) {
 				timer.start();
-			}
-			if (clicks == 0 && grid.get(loc).isBomb()) {
-				moveBomb(loc);
+				if(grid.get(loc).isBomb())
+					moveBomb(loc);
 			}
 			if (Spot.BOMB == grid.get(loc).open()) {
 				gameOver();
@@ -160,6 +159,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	}
 
 	private void moveBomb(Location loc) {
+		System.out.println("Moved bomb, whew dodged a bullet (mine) there");
 		Location newLoc = new Location(0, 0);
 		do {
 			int r = (int) (Math.random() * grid.getNumRows());
@@ -323,6 +323,8 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		while (i.hasNext()) {
 			((GameEndListener) i.next()).handleEvent(event);
 		}
+		System.out.println(this);
+		System.out.println(testString());
 	}
 
 	@Override

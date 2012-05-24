@@ -51,31 +51,33 @@ public class MineSpot extends JComponent implements
 
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		if (spot.isOpen()) {
-			switch (spot.getState()) {
-			case 0:
-				g2.setColor(Color.WHITE); break;
-			case 1:
-				g2.setColor(Color.BLUE); break;
-			case 2:
-				g2.setColor(Color.GREEN); break;
-			case 3:
-				g2.setColor(Color.RED); break;
-			case 4:
-				g2.setColor(Color.MAGENTA); break;
-			case 5:
-				g2.setColor(Color.CYAN); break;
-			case 6:
-				g2.setColor(Color.ORANGE); break;
-			case 7:
-				g2.setColor(Color.PINK); break;
-			case 8:
-				g2.setColor(Color.YELLOW); break;
-//			case Spot.FLAG:
-//				g2.setColor(Color.PINK); break;
+		if (spot.isOpen() || spot.isFlagged()) {
+			if(spot.isBomb())
+				g2.setColor(Color.BLACK);
+			else{
+				switch (spot.getState()) {
+				case 0:
+					g2.setColor(Color.WHITE); break;
+				case 1:
+					g2.setColor(Color.BLUE); break;
+				case 2:
+					g2.setColor(Color.GREEN); break;
+				case 3:
+					g2.setColor(Color.RED); break;
+				case 4:
+					g2.setColor(Color.MAGENTA); break;
+				case 5:
+					g2.setColor(Color.CYAN); break;
+				case 6:
+					g2.setColor(Color.ORANGE); break;
+				case 7:
+					g2.setColor(Color.PINK); break;
+				case 8:
+					g2.setColor(Color.YELLOW); break;
+				case Spot.FLAG:
+					g2.setColor(Color.PINK); break;
+				}
 			}
-			if(spot.isFlagged())
-				g2.setColor(Color.PINK);
 			g2.fill3DRect(0, 0, MineSpot.SIZE, MineSpot.SIZE, true);
 			g2.drawString("herro", 0, 0);
 		}
