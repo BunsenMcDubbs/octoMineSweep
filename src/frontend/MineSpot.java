@@ -3,9 +3,18 @@ package frontend;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 
@@ -14,20 +23,22 @@ import backend.event.*;
 
 // TODO stop extending Jtogglebutton
 @SuppressWarnings("serial")
-public class MineSpot extends JToggleButton implements ActionListener,
-		ClickedSpotEventListener, GameEndListener {
+public class MineSpot extends JComponent implements 
+	MouseListener, ClickedSpotEventListener, GameEndListener {
 
 	public static final int SIZE = 40;
 
 	private Spot spot;
 	private Minesweeper game;
-
+	private boolean enabled;
+	
 	public MineSpot(Spot s, Minesweeper m) {
 		setSpot(s);
 		setGame(m);
-		addActionListener(this);
+		addMouseListener(this);
 		spot.addEventListener(this);
 		game.addEventListener(this);
+		enabled = true;
 	}
 
 	private void setGame(Minesweeper m) {
@@ -38,10 +49,9 @@ public class MineSpot extends JToggleButton implements ActionListener,
 		spot = s;
 	}
 
-	@Override
 	public void paint(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
 		if (spot.isOpen()) {
-			Graphics2D g2 = (Graphics2D) g;
 			switch (spot.getState()) {
 			case 0:
 				g2.setColor(Color.WHITE); break;
@@ -61,14 +71,16 @@ public class MineSpot extends JToggleButton implements ActionListener,
 				g2.setColor(Color.PINK); break;
 			case 8:
 				g2.setColor(Color.YELLOW); break;
-			case -1:
+			case Spot.FLAG:
 				g2.setColor(Color.DARK_GRAY); break;
 			}
-			g2.fill3DRect(10, 10, 30, 30, true);
-//			g2.drawString("herro", 0, 0);
+			g2.fill3DRect(0, 0, MineSpot.SIZE, MineSpot.SIZE, true);
+			g2.drawString("herro", 0, 0);
 		}
-		else
-			super.paint(g);
+		else{
+			g2.setColor(Color.DARK_GRAY);
+			g2.fill3DRect(0, 0, MineSpot.SIZE, MineSpot.SIZE, true);
+		}
 	}
 
 	public Spot getSpot() {
@@ -78,7 +90,7 @@ public class MineSpot extends JToggleButton implements ActionListener,
 	/**
 	 * Action Listener for the MineSpot button
 	 */
-	@Override
+/*	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if (!game.isActive()){
@@ -88,7 +100,7 @@ public class MineSpot extends JToggleButton implements ActionListener,
 		}
 		else
 			spot.discreteOpen();
-	}
+	}*/
 
 	/**
 	 * Event Listener for the Spot's opening event
@@ -96,11 +108,48 @@ public class MineSpot extends JToggleButton implements ActionListener,
 	@Override
 	public void handleEvent(ClickedSpotEvent e) {
 		repaint();
-		doClick(0);
+		setEnabled(false);
 	}
 
 	@Override
 	public void handleEvent(GameEndEvent e) {
 		setEnabled(false);
 	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (enabled) {
+			if(e.getButton() == MouseEvent.BUTTON1){
+				if(!spot.isFlagged())
+					game.open(spot.loc);
+			}
+			else if (e.getButton() == MouseEvent.BUTTON3){
+				spot.toggleFlag();
+			}
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		//highlight
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		//unhighlight
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
 }

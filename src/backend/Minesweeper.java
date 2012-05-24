@@ -24,7 +24,7 @@ import info.gridworld.grid.Location;
  * @author bunsenmcdubbs
  * 
  */
-public class Minesweeper implements ActionListener {
+public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 
 	private BoundedGrid<Spot> grid;
 	private int difficulty;
@@ -104,7 +104,9 @@ public class Minesweeper implements ActionListener {
 		for (int r = 0; r < grid.getNumRows(); r++) {
 			for (int c = 0; c < grid.getNumCols(); c++) {
 				Location curr = new Location(r, c);
-				grid.put(curr, new Spot(curr, grid, false));
+				Spot s = new Spot(curr, grid, false);
+				s.addEventListener(this);
+				grid.put(curr, s);
 			}
 		}
 
@@ -130,7 +132,7 @@ public class Minesweeper implements ActionListener {
 			if (clicks == 0 && grid.get(loc).isBomb()) {
 				moveBomb(loc);
 			}
-			if (Spot.BOMB == grid.get(loc).discreteOpen()) {
+			if (Spot.BOMB == grid.get(loc).open()) {
 				gameOver();
 				timer.stop();
 				return;
@@ -313,6 +315,14 @@ public class Minesweeper implements ActionListener {
 		Iterator<GameEndListener> i = listeners.iterator();
 		while (i.hasNext()) {
 			((GameEndListener) i.next()).handleEvent(event);
+		}
+	}
+
+	@Override
+	public void handleEvent(ClickedSpotEvent e) {
+		Spot s = (Spot)(e.getSource());
+		if(s.getState() == Spot.BOMB){
+			gameOver();
 		}
 	}
 

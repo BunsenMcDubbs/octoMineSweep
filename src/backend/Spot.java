@@ -123,16 +123,6 @@ public class Spot {
 	public int open(){
 		
 		fireEvent();
-		return discreteOpen();
-	}
-	
-	/**
-	 * used in conjunction with the GUI, if the button (MineSpot) is the 
-	 * source of the opening this method prevents an infinite loop since
-	 * it doesn't fire an opening event
-	 * @return
-	 */
-	public int discreteOpen(){
 		if(flag){
 			opened = false;
 			return -1;
