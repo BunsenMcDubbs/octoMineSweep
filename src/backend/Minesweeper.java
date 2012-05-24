@@ -65,11 +65,6 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		timerSetup();
 	}
 
-	private void timerSetup() {
-		time = 0;
-		timer = new Timer(100, this);
-	}
-
 	/**
 	 * Default constructor for the Minesweeper game, assumes a difficulty level
 	 * of 1 or EASY
@@ -78,7 +73,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		this(1);
 	}
 
-	public void init(int d) {
+	private void init(int d) {
 		setDifficulty(d);
 		int seed;
 
@@ -118,6 +113,11 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 
 		clicks = 0;
 		gameActive = false;
+	}
+
+	private void timerSetup() {
+		time = 0;
+		timer = new Timer(100, this);
 	}
 
 	public void open(int x, int y) {
@@ -192,8 +192,12 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		return difficulty;
 	}
 
-	public void setDifficulty(int d) {
+	private void setDifficulty(int d) {
 		difficulty = d;
+	}
+	
+	public void resetGame(int d){
+		init(d);
 	}
 
 	public Timer getTimer() {
@@ -205,16 +209,11 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	}
 
 	private void win() {
-		System.out.println("WINNER WINNER CHICKEN DINNER");
 		fireEvent(true);
-		gameActive = false;
 	}
 
 	private void gameOver() {
-		System.out.println("GAME OVER");
 		fireEvent(false);
-		gameActive = false;
-		revealAll();
 	}
 
 	private void revealAll() {
@@ -310,6 +309,14 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	// call this method whenever you want to notify
 	// the event listeners of the particular event
 	private synchronized void fireEvent(boolean win) {
+		if(win){
+			System.out.println("WINNER WINNER CHICKEN DINNER");
+		}
+		else{
+			System.out.println("GAME OVER");
+			revealAll();
+		}
+		gameActive = false;
 		timer.stop();
 		GameEndEvent event = new GameEndEvent(this, win);
 		Iterator<GameEndListener> i = listeners.iterator();
@@ -324,6 +331,20 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		if(s.getState() == Spot.BOMB){
 			gameOver();
 		}
+	}
+
+	/**
+	 * @return the clicks
+	 */
+	public int getClicks() {
+		return clicks;
+	}
+
+	/**
+	 * resets the click counter to zero
+	 */
+	public void resetClicks() {
+		clicks = 0;
 	}
 
 }

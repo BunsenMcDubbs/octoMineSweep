@@ -94,9 +94,8 @@ public class Spot {
 	 * bomb count, otherwise it returns 10
 	 */
 	public int getState(){
-		if(!opened) return Spot.CLOSED;
-		if(bomb) return Spot.BOMB;
 		if(flag) return Spot.FLAG;
+		if(!opened) return Spot.CLOSED;
 		return getBombCount();
 	}
 	/**
