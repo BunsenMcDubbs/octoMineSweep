@@ -6,3 +6,4 @@ level selector
 color scheme
 menubar for selecting options
 pause button
+BUG bomb count is failing SHIT.
