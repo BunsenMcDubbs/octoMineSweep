@@ -1,4 +1,3 @@
-Need to organize code esp in Spot.java (consolidate the accessing of states etc)
 IMAGES
 double click
 Flag counter
@@ -6,4 +5,3 @@ level selector
 color scheme
 menubar for selecting options
 pause button
-BUG bomb count is failing SHIT.
