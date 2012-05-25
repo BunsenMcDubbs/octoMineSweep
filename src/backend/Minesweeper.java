@@ -127,7 +127,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	public void open(Location loc) {
 		if (!grid.get(loc).isOpen()) {
 			if (clicks == 0) {
-				timer.start();
+				startGame();
 				if(grid.get(loc).isBomb())
 					moveBomb(loc);
 			}
@@ -156,6 +156,16 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 				win();
 			}
 		}
+	}
+	
+	public void startGame(){
+		timer.start();
+		gameActive = true;
+	}
+	
+	public void stopGame(){
+		timer.stop();
+		gameActive = false;
 	}
 
 	private void moveBomb(Location loc) {
@@ -220,7 +230,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		for (int r = 0; r < grid.getNumRows(); r++) {
 			for (int c = 0; c < grid.getNumCols(); c++) {
 				if(grid.get(new Location(r,c)).isBomb())
-					grid.get(new Location(r, c)).open();
+					grid.get(new Location(r, c)).reveal();
 			}
 		}
 	}
@@ -257,7 +267,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	}
 
 	public String testString() {
-		String s = "Minesweeper\n";
+		String s = "TestMinesweeper\n";
 		s += "+";
 		for (int i = 1; i <= grid.getNumRows() * 2 + 1; i++) {
 			s += "-";

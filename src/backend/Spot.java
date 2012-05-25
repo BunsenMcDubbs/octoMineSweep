@@ -96,6 +96,7 @@ public class Spot {
 	public int getState(){
 		if(flag) return Spot.FLAG;
 		if(!opened) return Spot.CLOSED;
+		if(opened && bomb) return Spot.BOMB;
 		return getBombCount();
 	}
 	/**
@@ -123,6 +124,10 @@ public class Spot {
 	public int open(){
 		
 		fireEvent(true);
+		return reveal();
+	}
+	
+	public int reveal(){
 		if(flag){
 			opened = false;
 			return -1;

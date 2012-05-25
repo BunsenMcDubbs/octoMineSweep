@@ -1,9 +1,11 @@
 package frontend;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,13 +53,20 @@ public class MineSpot extends JComponent implements
 
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		if (spot.isOpen() || spot.isFlagged()) {
-			if(spot.isBomb())
+		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,  
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+
+		if (spot.isOpen()) {
+			if(spot.isBomb()){
 				g2.setColor(Color.BLACK);
+				g2.fill3DRect(0, 0, MineSpot.SIZE, MineSpot.SIZE, true);
+			}
 			else{
+				g2.setColor(Color.blue);
 				switch (spot.getState()) {
 				case 0:
-					g2.setColor(Color.WHITE); break;
+					return;
 				case 1:
 					g2.setColor(Color.BLUE); break;
 				case 2:
@@ -74,16 +83,20 @@ public class MineSpot extends JComponent implements
 					g2.setColor(Color.PINK); break;
 				case 8:
 					g2.setColor(Color.YELLOW); break;
-				case Spot.FLAG:
-					g2.setColor(Color.PINK); break;
 				}
+				g2.drawString("" + spot.getState(), 0, 20);
 			}
-			g2.fill3DRect(0, 0, MineSpot.SIZE, MineSpot.SIZE, true);
-			g2.drawString("herro", 0, 0);
 		}
 		else{
-			g2.setColor(Color.DARK_GRAY);
+			if(spot.isFlagged()){
+				g2.setColor(Color.PINK);
+				if(!game.isActive() && !spot.isBomb())
+					g2.setColor(Color.yellow);
+			}
+			else
+				g2.setColor(Color.GRAY);
 			g2.fill3DRect(0, 0, MineSpot.SIZE, MineSpot.SIZE, true);
+
 		}
 	}
 
@@ -156,6 +169,10 @@ public class MineSpot extends JComponent implements
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (enabled) {
+			switch(e.getButton()){
+			case MouseEvent.BUTTON1: System.out.println("1"); break;
+			case MouseEvent.BUTTON3: System.out.println("3"); break;
+			}
 			if(e.getButton() == MouseEvent.BUTTON1){
 				if(!spot.isFlagged())
 					game.open(spot.loc);

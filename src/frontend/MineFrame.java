@@ -1,6 +1,7 @@
 package frontend;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -11,6 +12,8 @@ import javax.swing.Timer;
 import backend.*;
 
 public class MineFrame extends JFrame implements FocusListener{
+	
+	public static final Color bg = Color.DARK_GRAY;
 	
 	private Minesweeper game;
 	private Timer timer;

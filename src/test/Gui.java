@@ -19,9 +19,9 @@ public class Gui {
 		// TODO fix updating difficulty/new game refreshing functionality
 //		mF.setDifficulty(1);
 		
-		for( Component c : m.getField().getComponents())
-			if(!((MineSpot)c).getSpot().isBomb())
-				m.getGame().open(((MineSpot)c).getSpot().loc);
+//		for( Component c : m.getField().getComponents())
+//			if(!((MineSpot)c).getSpot().isBomb())
+//				m.getGame().open(((MineSpot)c).getSpot().loc);
 		System.out.println(m.getGame().testString());
 	}
 

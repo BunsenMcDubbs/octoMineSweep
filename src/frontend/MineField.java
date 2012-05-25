@@ -1,5 +1,6 @@
 package frontend;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -57,6 +58,7 @@ public class MineField extends JComponent implements GameEndListener,
 
 	@Override
 	public void handleEvent(GameEndEvent e) {
+		repaint();
 		if (e.isWinner()) {
 			JOptionPane.showMessageDialog(this,
 					"The Mines have been Sweeped... you win\n"
