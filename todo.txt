@@ -3,3 +3,6 @@ IMAGES
 double click
 Flag counter
 level selector
+color scheme
+menubar for selecting options
+pause button
