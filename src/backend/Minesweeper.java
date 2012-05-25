@@ -106,9 +106,13 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		}
 
 		for (int i = 0; i < seed; i++) {
+			System.out.println(i);
 			int r = (int) (Math.random() * grid.getNumRows());
 			int c = (int) (Math.random() * grid.getNumCols());
-			((Spot) (grid.get(new Location(r, c)))).setBomb(true);
+			if(!grid.get(new Location(r, c)).isBomb())
+				grid.get(new Location(r, c)).setBomb(true);
+			else
+				i--;
 		}
 
 		clicks = 0;

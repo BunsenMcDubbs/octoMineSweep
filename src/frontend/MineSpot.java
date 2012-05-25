@@ -15,10 +15,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 
 import backend.*;
 import backend.event.*;
@@ -104,20 +106,6 @@ public class MineSpot extends JComponent implements
 		return spot;
 	}
 
-	/**
-	 * Action Listener for the MineSpot button
-	 */
-/*	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		if (!game.isActive()){
-			if(!spot.isFlagged())
-				game.open(spot.loc);
-			else return;
-		}
-		else
-			spot.discreteOpen();
-	}*/
 
 	/**
 	 * Event Listener for the Spot's opening event
@@ -144,16 +132,27 @@ public class MineSpot extends JComponent implements
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-//		if (enabled) {
-//			if(e.getButton() == MouseEvent.BUTTON1){
-//				if(!spot.isFlagged())
-//					game.open(spot.loc);
-//			}
-//			else if (e.getButton() == MouseEvent.BUTTON3){
-//				System.out.println("L:KEjrl;KEJFL:KEJRL:KJ");
-//				spot.toggleFlag();
-//			}
-//		}
+		switch(e.getButton()){
+		case MouseEvent.BUTTON1: System.out.println("1"); break;
+		case MouseEvent.BUTTON3: System.out.println("3"); break;
+		}
+		if(SwingUtilities.isLeftMouseButton(e)){
+			if(!spot.isFlagged()){
+				game.open(spot.loc);
+				// TODO dual click?
+				if(e.getButton() == MouseEvent.BUTTON3_DOWN_MASK){
+					ArrayList<Spot> n = game.getGrid().getNeighbors(spot.loc);
+					for(Spot s : n){
+						if(!s.isFlagged())
+							game.open(s.loc);
+					}
+				}
+			}
+		}
+		else if (SwingUtilities.isRightMouseButton(e) && game.isActive()){
+			if(!spot.isOpen())
+				spot.toggleFlag();
+		}
 	}
 
 	@Override
@@ -168,20 +167,7 @@ public class MineSpot extends JComponent implements
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (enabled) {
-			switch(e.getButton()){
-			case MouseEvent.BUTTON1: System.out.println("1"); break;
-			case MouseEvent.BUTTON3: System.out.println("3"); break;
-			}
-			if(e.getButton() == MouseEvent.BUTTON1){
-				if(!spot.isFlagged())
-					game.open(spot.loc);
-			}
-			else if (e.getButton() == MouseEvent.BUTTON3){
-				System.out.println("L:KEjrl;KEJFL:KEJRL:KJ");
-				spot.toggleFlag();
-			}
-		}
+		
 	}
 
 	@Override
