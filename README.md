@@ -6,4 +6,8 @@ The class to start the game is in src/test/Gui.java (source code) or bin/test/Gu
 
 The source folder is divided into a test package containing code that starts the game, backend package for the actual game mechanics (including a Events subpackage for handling different events that occur in the game), and finally a frontend package for the GUI representation of the game and mouse interactivity.
 
+# Copyrights #
+
 This project also canabalizes code from the GridWorld CollegeBoard AP Case Study for the code used in BoundedGrid and Location.
+
+MineSpot uses code from Copyright 2003 Fred Swartz MIT License

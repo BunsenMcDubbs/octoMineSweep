@@ -1,7 +1,6 @@
-IMAGES
-double click
+Images for the bombs and other icons
 Flag counter
 level selector
 color scheme
 menubar for selecting options
-pause button
+fix restart bug with blank screen
