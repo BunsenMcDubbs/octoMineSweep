@@ -33,6 +33,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	private int time;
 	private int clicks;
 	private boolean gameActive;
+	private boolean enabled;
 	private int bombs;
 
 	/**
@@ -64,6 +65,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	public Minesweeper(int difficulty) {
 		init(difficulty);
 		timerSetup();
+		enabled = true;
 	}
 
 	/**
@@ -129,6 +131,8 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	}
 
 	public void open(Location loc) {
+		if(!enabled)
+			return;
 		if (!grid.get(loc).isOpen()) {
 			startGame();
 			if (clicks == 0) {
@@ -140,7 +144,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 				return;
 			}
 			clicks++;
-			if(isFinished()){
+			if(hasFinished()){
 				win();
 			}
 		}
@@ -168,7 +172,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		((Spot) (grid.get(newLoc))).setBomb(true);
 	}
 
-	public boolean isFinished() {
+	private boolean hasFinished() {
 		for (int r = 0; r < grid.getNumRows(); r++) {
 			for (int c = 0; c < grid.getNumCols(); c++) {
 				Spot s = (Spot) grid.get(new Location(r, c));
@@ -180,6 +184,10 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 			}
 		}
 		return true;
+	}
+	
+	public boolean isEnabled(){
+		return enabled;
 	}
 
 	public BoundedGrid<Spot> getGrid() {
@@ -315,6 +323,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 			revealAll();
 		}
 		gameActive = false;
+		enabled = false;
 		timer.stop();
 		GameEndEvent event = new GameEndEvent(this, win);
 		Iterator<GameEndListener> i = listeners.iterator();
