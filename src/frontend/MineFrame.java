@@ -3,20 +3,24 @@ package frontend;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import backend.*;
 
-public class MineFrame extends JFrame implements FocusListener{
+public class MineFrame extends JFrame implements ActionListener{
 	
 	public static final Color bg = Color.DARK_GRAY;
 	
 	private Minesweeper game;
-	private Timer timer;
+	private JPanel info;
 	
 	private MineField mF;
 	
@@ -30,13 +34,30 @@ public class MineFrame extends JFrame implements FocusListener{
 		selector();
 		minefield();
 		
-		//Adding the TimerDisplay to the top
-		add(new TimeDisplay(game), BorderLayout.NORTH);
+		infoPanel();
 		
 		setSize();
 		
 		setVisible(true);
 		
+	}
+
+	private void infoPanel() {
+		info = new JPanel(new BorderLayout());
+		//Adding the TimerDisplay to the top
+		info.add(new TimeDisplay(game), BorderLayout.CENTER);
+		
+		JButton pause = new JButton("Pause");
+		JButton restart = new JButton("Restart");
+		pause.setActionCommand("pause");
+		restart.setActionCommand("restart");
+		pause.addActionListener(this);
+		restart.addActionListener(this);
+		
+		info.add(pause, BorderLayout.EAST);
+		info.add(restart, BorderLayout.WEST);
+		
+		add(info, BorderLayout.NORTH);
 	}
 
 	private void setSize() {
@@ -51,7 +72,6 @@ public class MineFrame extends JFrame implements FocusListener{
 
 	private void backend(int d) {
 		setGame(new Minesweeper(d));
-		timer = game.getTimer();
 	}
 
 	private void selector() {
@@ -86,16 +106,15 @@ public class MineFrame extends JFrame implements FocusListener{
 		setSize();
 	}
 
-	// TODO Not working
 	@Override
-	public void focusGained(FocusEvent f) {
-		if(game.isActive()){
-			game.getTimer().start();
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("pause")){
+			game.stopGame();
+		}
+		else if(e.getActionCommand().equals("restart")){
+			System.out.println("Restart");
+			// TODO restart implementation
 		}
 	}
 
-	@Override
-	public void focusLost(FocusEvent f) {
-		game.getTimer().stop();
-	}
 }
