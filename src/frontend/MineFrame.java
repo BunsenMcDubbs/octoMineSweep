@@ -10,6 +10,7 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -30,16 +31,18 @@ public class MineFrame extends JFrame implements ActionListener{
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		backend();
-		selector();
-		minefield();
-		
-		infoPanel();
-		
-		setSize();
+		init();
 		
 		setVisible(true);
 		
+	}
+	
+	private void init (){
+		backend();
+		selector();
+		minefield();
+		infoPanel();
+		setSize();
 	}
 
 	private void infoPanel() {
@@ -112,9 +115,23 @@ public class MineFrame extends JFrame implements ActionListener{
 			game.stopGame();
 		}
 		else if(e.getActionCommand().equals("restart")){
-			System.out.println("Restart");
-			// TODO restart implementation
+			game.stopGame();
+			if(game.isEnabled()){
+				if(JOptionPane.showConfirmDialog(this, "Are you sure you want to restart the game?",
+					"Restart", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+					restart();
+			}
+			else
+				restart();
 		}
+	}
+
+	private void restart() {
+		remove(mF);
+		remove(info);
+		game = null;
+		init();
+		repaint(2000);
 	}
 
 }
