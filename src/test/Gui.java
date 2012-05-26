@@ -22,6 +22,7 @@ public class Gui {
 //		for( Component c : m.getField().getComponents())
 //			if(!((MineSpot)c).getSpot().isBomb())
 //				m.getGame().open(((MineSpot)c).getSpot().loc);
+		
 		System.out.println(m.getGame().testString());
 	}
 

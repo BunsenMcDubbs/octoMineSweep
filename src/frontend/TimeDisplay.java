@@ -24,20 +24,25 @@ public class TimeDisplay extends JLabel implements ActionListener{
 		refresh();
 	}
 	
-	private void refresh(){
-		int time = game.getTime();
+	public static String tenthsToString(int t){
 		String s = "";
 		//Minutes
-		s += time / 600;
+		s += t / 600;
 		s += ":";
 		//Seconds
-		if(((time % 600) / 10) < 10)
+		if(((t % 600) / 10) < 10)
 			s += "0";
-		s += (time % 600) / 10;
+		s += (t % 600) / 10;
 		s += ".";
 		//Tenths of a Second
-		s += (time % 600) % 10;
-		super.setText(s);
+		s += (t % 600) % 10;
+		
+		return s;
+	}
+	
+	private void refresh(){
+		int time = game.getTime();
+		super.setText(tenthsToString(time));
 		repaint();
 	}
 	
