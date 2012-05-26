@@ -33,6 +33,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	private int time;
 	private int clicks;
 	private boolean gameActive;
+	private int bombs;
 
 	/**
 	 * Easy difficulty level 9 by 9 board with 10 bombs
@@ -75,23 +76,22 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 
 	private void init(int d) {
 		setDifficulty(d);
-		int seed;
 
 		switch (difficulty) {
 		case EASY:
 			grid = new BoundedGrid<Spot>(9, 9);
-			seed = 10;
+			bombs = 10;
 			break;
 		case MEDIUM:
 			grid = new BoundedGrid<Spot>(16, 16);
-			seed = 40;
+			bombs = 40;
 			break;
 		case HARD:
 			grid = new BoundedGrid<Spot>(30, 16);
-			seed = 99;
+			bombs = 99;
 			break;
 		default:
-			seed = 0;
+			bombs = 0;
 			grid = new BoundedGrid<Spot>(1, 1);
 			break;
 		}
@@ -105,7 +105,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 			}
 		}
 
-		for (int i = 0; i < seed; i++) {
+		for (int i = 0; i < bombs; i++) {
 			System.out.println(i);
 			int r = (int) (Math.random() * grid.getNumRows());
 			int c = (int) (Math.random() * grid.getNumCols());
@@ -130,33 +130,17 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 
 	public void open(Location loc) {
 		if (!grid.get(loc).isOpen()) {
+			startGame();
 			if (clicks == 0) {
-				startGame();
 				if(grid.get(loc).isBomb())
 					moveBomb(loc);
 			}
 			if (Spot.BOMB == grid.get(loc).open()) {
 				gameOver();
-				timer.stop();
 				return;
 			}
 			clicks++;
-			// TODO make dynamic
-			int totalSpots = 0;
-			if(difficulty == EASY){
-				totalSpots = 71;
-			}
-			else if(difficulty == MEDIUM){
-				totalSpots = 216;
-			}
-			else if(difficulty == HARD){
-				totalSpots = 381;
-			}
-			else if(difficulty == CUSTOM){
-				// TODO calculation stuff
-			}
-			
-			if((totalSpots - clicks) == 0){
+			if(isFinished()){
 				win();
 			}
 		}
