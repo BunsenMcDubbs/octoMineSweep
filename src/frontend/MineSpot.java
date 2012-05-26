@@ -2,6 +2,7 @@ package frontend;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -31,10 +32,12 @@ public class MineSpot extends JComponent implements
 	MouseListener, ClickedSpotEventListener, GameEndListener {
 
 	public static final int SIZE = 40;
+	public static final Color HIGHLIGHT = Color.CYAN;
 
 	private Spot spot;
 	private Minesweeper game;
 	private boolean enabled;
+	private boolean highlight;
 	
 	public MineSpot(Spot s, Minesweeper m) {
 		setSpot(s);
@@ -43,6 +46,7 @@ public class MineSpot extends JComponent implements
 		spot.addEventListener(this);
 		game.addEventListener(this);
 		enabled = true;
+		highlight = false;
 	}
 
 	private void setGame(Minesweeper m) {
@@ -57,7 +61,7 @@ public class MineSpot extends JComponent implements
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,  
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+		g2.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 25));
 
 		if (spot.isOpen()) {
 			if(spot.isBomb()){
@@ -86,11 +90,33 @@ public class MineSpot extends JComponent implements
 				case 8:
 					g2.setColor(Color.YELLOW); break;
 				}
-				g2.drawString("" + spot.getState(), 0, 20);
+				String s = "" + spot.getState();
+				
+				//The following block is Copyright 2003 Fred Swartz MIT License
+				//http://leepoint.net/notes-java/GUI-appearance/fonts/18font.html
+				{
+					// Find the size of string s in font f in the current Graphics context g.
+					FontMetrics fm   = g2.getFontMetrics(g2.getFont());
+					java.awt.geom.Rectangle2D rect = fm.getStringBounds(s, g);
+	
+					int textHeight = (int)(rect.getHeight()); 
+					int textWidth  = (int)(rect.getWidth());
+					int panelHeight= this.getHeight();
+					int panelWidth = this.getWidth();
+	
+					// Center text horizontally and vertically
+					int x = (panelWidth  - textWidth)  / 2;
+					int y = (panelHeight - textHeight) / 2  + fm.getAscent();
+	
+					g.drawString(s, x, y);  // Draw the string.
+				}
 			}
 		}
 		else{
-			if(spot.isFlagged()){
+			if(highlight){
+				g2.setColor(HIGHLIGHT);
+			}
+			else if(spot.isFlagged()){
 				g2.setColor(Color.PINK);
 				if(!game.isActive() && !spot.isBomb())
 					g2.setColor(Color.yellow);
@@ -132,6 +158,23 @@ public class MineSpot extends JComponent implements
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		highlight = true;
+		repaint();
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		highlight = false;
+		repaint();
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
 		switch(e.getButton()){
 		case MouseEvent.BUTTON1: System.out.println("1"); break;
 		case MouseEvent.BUTTON3: System.out.println("3"); break;
@@ -153,21 +196,6 @@ public class MineSpot extends JComponent implements
 			if(!spot.isOpen())
 				spot.toggleFlag();
 		}
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		//highlight
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		//unhighlight
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		
 	}
 
 	@Override
