@@ -22,5 +22,12 @@ public class HighscoreItem {
 	public void setTime(int time) {
 		this.time = time;
 	}
-
+	
+	public String toString(){
+		String s = "";
+		s += name + " ";
+		s += time;
+		return s;
+	}
+	
 }

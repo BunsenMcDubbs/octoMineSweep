@@ -96,7 +96,7 @@ public class MineFrame extends JFrame implements ActionListener{
 	}
 	
 	private void backend(){
-		backend(3);
+		backend(1);
 	}
 
 	private void backend(int d) {
@@ -163,7 +163,6 @@ public class MineFrame extends JFrame implements ActionListener{
 		for(Component c : infoParts){
 			if(c instanceof TimeDisplay){
 				((TimeDisplay) c).setGame(game);
-				((TimeDisplay) c).refresh();
 				break;
 			}
 		}

@@ -1,21 +1,18 @@
 package backend.highscore;
 
+import java.io.*;
+
 public class HighscoreIndex {
 
-	private HighscoreItem[] easy;
-	private HighscoreItem[] medium;
-	private HighscoreItem[] hard;
+	private HighscoreItem[][] scores;
 
 	public HighscoreIndex() {
-		easy = new HighscoreItem[10];
-		medium = new HighscoreItem[10];
-		hard = new HighscoreItem[10];
+		scores = new HighscoreItem[3][10];
 
 		init();
 	}
 
 	private void init() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -25,6 +22,33 @@ public class HighscoreIndex {
 
 	public void addNewHighscore(HighscoreItem s) {
 
+	}
+	
+	public void save() throws IOException {
+		Writer output = null;
+		String text = "";
+		for(int level = 0; level < scores.length; level++){
+			text += "" + (1+level) + "\n";
+			for(int i = 0; i < scores[0].length; i++){
+//				if(scores[level][i] == null)
+//					break;
+//				text += scores[level][i].toString();
+				text += "Score " + i + "\n";
+			}
+		}
+		File file = new File("score.txt");
+		output = new BufferedWriter(new FileWriter(file));
+		output.write(text);
+		output.close();
+	}
+	
+	public static void main(String[] a){
+		try {
+			new HighscoreIndex().save();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
