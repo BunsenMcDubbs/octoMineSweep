@@ -154,15 +154,6 @@ public class MineFrame extends JFrame implements ActionListener{
 
 	private void restart() {
 		
-//		Component[] children = getComponents();
-//		int i = 0;
-//		for(; i < children.length; i++){
-//			if(children[i] instanceof MineField)
-//				break;
-//		}
-//		remove(i);
-		
-		System.out.println(this.getComponents());
 		remove(mF);
 		
 		backend();
@@ -172,6 +163,7 @@ public class MineFrame extends JFrame implements ActionListener{
 		for(Component c : infoParts){
 			if(c instanceof TimeDisplay){
 				((TimeDisplay) c).setGame(game);
+				((TimeDisplay) c).refresh();
 				break;
 			}
 		}

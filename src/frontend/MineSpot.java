@@ -192,7 +192,7 @@ public class MineSpot extends JComponent implements
 				}
 			}
 		}
-		else if (SwingUtilities.isRightMouseButton(e) && game.isActive()){
+		else if (SwingUtilities.isRightMouseButton(e) && game.isEnabled()){
 			if(!spot.isOpen())
 				spot.toggleFlag();
 		}

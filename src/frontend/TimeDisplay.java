@@ -46,7 +46,7 @@ public class TimeDisplay extends JLabel implements ActionListener{
 		return s;
 	}
 	
-	private void refresh(){
+	public void refresh(){
 		int time = game.getTime();
 		super.setText(tenthsToString(time));
 		repaint();
