@@ -22,12 +22,12 @@ public class TimeDisplay extends JLabel implements ActionListener{
 		super.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 40));
 		super.setHorizontalAlignment(JLabel.CENTER);
 		setGame(m);
-		m.getTimer().addActionListener(this);
-		refresh();
 	}
 	
 	public void setGame(Minesweeper game){
 		this.game = game;
+		game.getTimer().addActionListener(this);
+		refresh();
 	}
 	
 	public static String tenthsToString(int t){

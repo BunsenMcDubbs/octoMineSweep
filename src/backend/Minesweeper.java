@@ -336,10 +336,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 
 	@Override
 	public void handleEvent(ClickedSpotEvent e) {
-		Spot s = (Spot)(e.getSource());
-		if(s.getState() == Spot.BOMB){
-			gameOver();
-		}
+//		startGame();
 	}
 
 	/**
