@@ -1,8 +1,10 @@
 package frontend;
 
 import java.awt.Font;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Graphics2D;
 
 import javax.swing.JLabel;
 import javax.swing.Timer;
@@ -17,11 +19,15 @@ public class TimeDisplay extends JLabel implements ActionListener{
 	
 	public TimeDisplay(Minesweeper m){
 		super();
-		super.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, TEXT_HEIGHT));
+		super.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 40));
 		super.setHorizontalAlignment(JLabel.CENTER);
-		game = m;
+		setGame(m);
 		m.getTimer().addActionListener(this);
 		refresh();
+	}
+	
+	public void setGame(Minesweeper game){
+		this.game = game;
 	}
 	
 	public static String tenthsToString(int t){

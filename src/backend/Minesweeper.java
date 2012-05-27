@@ -234,7 +234,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	public String toString() {
 		String s = "Minesweeper\n";
 		s += "+";
-		for (int i = 1; i <= grid.getNumRows() * 2 + 1; i++) {
+		for (int i = 1; i <= grid.getNumCols() * 2 + 1; i++) {
 			s += "-";
 		}
 		s += "+\n";
@@ -255,7 +255,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 			s += "|\n";
 		}
 		s += "+";
-		for (int i = 1; i <= grid.getNumRows() * 2 + 1; i++) {
+		for (int i = 1; i <= grid.getNumCols() * 2 + 1; i++) {
 			s += "-";
 		}
 		s += "+";
@@ -265,7 +265,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	public String testString() {
 		String s = "TestMinesweeper\n";
 		s += "+";
-		for (int i = 1; i <= grid.getNumRows() * 2 + 1; i++) {
+		for (int i = 1; i <= grid.getNumCols() * 2 + 1; i++) {
 			s += "-";
 		}
 		s += "+\n";
@@ -284,7 +284,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 			s += "|\n";
 		}
 		s += "+";
-		for (int i = 1; i <= grid.getNumRows() * 2 + 1; i++) {
+		for (int i = 1; i <= grid.getNumCols() * 2 + 1; i++) {
 			s += "-";
 		}
 		s += "+";

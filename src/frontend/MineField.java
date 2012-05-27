@@ -12,13 +12,14 @@ import info.gridworld.grid.Location;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import backend.*;
 import backend.event.GameEndEvent;
 import backend.event.GameEndListener;
 
 @SuppressWarnings("serial")
-public class MineField extends JComponent implements GameEndListener,
+public class MineField extends JPanel implements GameEndListener,
 		MouseListener {
 
 	private Minesweeper game;
@@ -50,6 +51,7 @@ public class MineField extends JComponent implements GameEndListener,
 		int len = game.getGrid().getNumRows() * MineSpot.SIZE;
 
 		setSize(wid, len);
+		setMinimumSize(getSize());
 	}
 
 	public void setGame(Minesweeper g) {
@@ -65,12 +67,12 @@ public class MineField extends JComponent implements GameEndListener,
 							+ TimeDisplay.tenthsToString(((Minesweeper) e.getSource()).getTime()) 
 							+ "\nWith " + ((Minesweeper)e.getSource()).getClicks()
 							+ " clicks",
-					"Winner", JOptionPane.WARNING_MESSAGE);
+					"Winner", JOptionPane.INFORMATION_MESSAGE);
 			System.out.println(((Minesweeper) e.getSource()).getTime());
 		} else {
 			JOptionPane.showMessageDialog(this,
 					"You triggered a bomb... you died.", "Game Over",
-					JOptionPane.WARNING_MESSAGE);
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 
 	}

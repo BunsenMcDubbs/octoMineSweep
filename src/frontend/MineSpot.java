@@ -117,9 +117,9 @@ public class MineSpot extends JComponent implements
 				g2.setColor(HIGHLIGHT);
 			}
 			else if(spot.isFlagged()){
-				g2.setColor(Color.PINK);
+				g2.setColor(Color.YELLOW);
 				if(!game.isActive() && !spot.isBomb())
-					g2.setColor(Color.yellow);
+					g2.setColor(Color.PINK);
 			}
 			else
 				g2.setColor(Color.GRAY);
