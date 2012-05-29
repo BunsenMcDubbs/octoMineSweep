@@ -25,7 +25,7 @@ public class HighscoreItem {
 	
 	public String toString(){
 		String s = "";
-		s += name + " ";
+		s += name + ":";
 		s += time;
 		return s;
 	}
