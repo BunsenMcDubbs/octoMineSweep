@@ -30,10 +30,10 @@ public class HighscoreIndex {
 		for(int level = 0; level < scores.length; level++){
 			text += "" + (1+level) + "\n";
 			for(int i = 0; i < scores[0].length; i++){
-				if(scores[level][i] == null)
-					break;
-				text += scores[level][i].toString();
-//				text += "Score " + i + "\n";
+//				if(scores[level][i] == null)
+//					break;
+//				text += scores[level][i].toString();
+				text += "Aayush " + i + "\n";
 			}
 		}
 		File file = new File("score.txt");
