@@ -30,16 +30,26 @@ public class HighscoreIndex {
 		for(int level = 0; level < scores.length; level++){
 			text += "" + (1+level) + "\n";
 			for(int i = 0; i < scores[0].length; i++){
-//				if(scores[level][i] == null)
-//					break;
-//				text += scores[level][i].toString();
-				text += "Score " + i + "\n";
+				if(scores[level][i] == null)
+					break;
+				text += scores[level][i].toString();
+//				text += "Score " + i + "\n";
 			}
 		}
 		File file = new File("score.txt");
 		output = new BufferedWriter(new FileWriter(file));
 		output.write(text);
 		output.close();
+	}
+	
+	public HighscoreItem[] getScores(int difficulty){
+		HighscoreItem[] list = null;
+		switch(difficulty){
+		case 1: list = scores[0];
+		case 2: list = scores[1];
+		case 3: list = scores[2];
+		}
+		return list;
 	}
 	
 	public static void main(String[] a){
