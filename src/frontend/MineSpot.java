@@ -179,17 +179,14 @@ public class MineSpot extends JComponent implements
 		case MouseEvent.BUTTON1: System.out.println("1"); break;
 		case MouseEvent.BUTTON3: System.out.println("3"); break;
 		}
-		if(SwingUtilities.isLeftMouseButton(e)){
+		
+		if(e.getModifiersEx() == 5120){
+			// TODO dual click
+		}
+		
+		else if(SwingUtilities.isLeftMouseButton(e)){
 			if(!spot.isFlagged()){
 				game.open(spot.loc);
-				// TODO dual click?
-				if(e.getButton() == MouseEvent.BUTTON3_DOWN_MASK){
-					ArrayList<Spot> n = game.getGrid().getNeighbors(spot.loc);
-					for(Spot s : n){
-						if(!s.isFlagged())
-							game.open(s.loc);
-					}
-				}
 			}
 		}
 		else if (SwingUtilities.isRightMouseButton(e) && game.isEnabled()){

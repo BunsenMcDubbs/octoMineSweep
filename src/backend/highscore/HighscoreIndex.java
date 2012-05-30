@@ -128,12 +128,15 @@ public class HighscoreIndex {
 		System.out.println(h.medium);
 		System.out.println(h.hard);
 		System.out.println("Test==================");
-		
-		try {
-			h.save();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
-
+	
+	public ArrayList<HighscoreItem> getScores(int difficulty){
+		ArrayList<HighscoreItem> list = new ArrayList<HighscoreItem>();
+		switch(difficulty){
+		case 1: list = easy; break;
+		case 2: list = medium; break;
+		case 3: list = hard; break;
+		}
+		return list;
+	}
 }
