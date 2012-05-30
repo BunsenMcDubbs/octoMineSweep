@@ -2,4 +2,3 @@ Images for the bombs and other icons
 Flag counter
 level selector
 color scheme
-getModifiersEx() == 5120
