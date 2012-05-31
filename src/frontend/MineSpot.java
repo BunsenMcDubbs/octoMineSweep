@@ -158,6 +158,9 @@ public class MineSpot extends JComponent implements
 		}
 	}
 
+	/**
+	 * @return the spot that is represented by this MineSpot
+	 */
 	public Spot getSpot() {
 		return spot;
 	}
