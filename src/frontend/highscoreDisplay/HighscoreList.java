@@ -3,6 +3,7 @@ package frontend.highscoreDisplay;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,7 +35,7 @@ public class HighscoreList extends JFrame {
 	
 	private void init(){
 		entries = new Entry[10];
-		HighscoreItem[] items = index.getScores(currDifficulty);
+		ArrayList<HighscoreItem> items = index.getScores(currDifficulty);
 		int i = 0;
 		for(HighscoreItem h : items){
 			entries[i] = new Entry(h);
