@@ -198,6 +198,16 @@ public class MineSpot extends JComponent implements
 	public boolean isEnabled() {
 		return enabled;
 	}
+	
+	public String status(){
+		String s = "\n";
+		
+		s += spot.status();
+		
+		s += "\nEnabled: " + enabled;
+		
+		return s;
+	}
 
 	/**
 	 * @deprecated
@@ -237,27 +247,40 @@ public class MineSpot extends JComponent implements
 	@Override
 	public void mousePressed(MouseEvent e) {
 		
+		System.out.println("Pressed");
+		
+		{
+			System.out.println(e.getModifiersEx());
+		}
+		
+		
 		if(!game.isEnabled()) return;
 		
-		switch(e.getButton()){
-		case MouseEvent.BUTTON1: System.out.println("1"); break;
-		case MouseEvent.BUTTON3: System.out.println("3"); break;
-		}
+		System.out.println(status());
 		
-		if(e.getModifiersEx() == 5120){
-			if(spot.isOpen()){
-				
+		if(e.getModifiersEx() == 5120 && spot.isOpen()){
+			System.out.println("Dual Click");
+			for( Spot s : game.getGrid().getNeighbors(spot.loc)){
+				System.out.println(game.getGrid().get(s.loc).status());
+				game.open(s.loc);
+				if(s.isBomb()) return;
 			}
 		}
-		
 		else if(SwingUtilities.isLeftMouseButton(e)){
+			System.out.println("Left Click");
 			if(!spot.isFlagged()){
+				System.out.println("open");
 				game.open(spot.loc);
 			}
 		}
-		else if (SwingUtilities.isRightMouseButton(e) && game.isEnabled()){
+		else if (SwingUtilities.isRightMouseButton(e) && game.hasStarted()){
+			System.out.println("Right Click");
 			if(!spot.isOpen())
+				System.out.println("flagged");
 				spot.toggleFlag();
+		}
+		else {
+			System.out.println("Fail Click\n");
 		}
 	}
 

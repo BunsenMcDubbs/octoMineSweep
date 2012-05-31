@@ -7,6 +7,8 @@ import java.util.Iterator;
 
 import javax.swing.Timer;
 
+import frontend.TimeDisplay;
+
 import backend.event.GameEndEvent;
 import backend.event.GameEndListener;
 import backend.event.ClickedSpotEvent;
@@ -150,7 +152,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	public void open(Location loc) {
 		if(!enabled)
 			return;
-		if (!grid.get(loc).isOpen()) {
+		if (!grid.get(loc).isOpen() && !grid.get(loc).isFlagged()) {
 			startGame();
 			if (clicks == 0) {
 				if(grid.get(loc).isBomb())
@@ -378,6 +380,21 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	}
 
 	/**
+	 * String representation of the current attributes of the minesweeper game
+	 * @return
+	 */
+	public String status(){
+		String s = "";
+		
+		s += "Difficulty: " + difficulty;
+		s += "\nEnabled: " + enabled;
+		s += "\nClicks: "	+ clicks;
+		s += "\nTime: "	+ TimeDisplay.tenthsToString(time);
+		s += "\nActive: " + gameActive;
+		
+		return s;
+	}
+	/**
 	 * Increments the time to keep track of the amount of time
 	 * the current game is taking (in tenths of a second)
 	 */
@@ -393,6 +410,13 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	 */
 	public boolean isActive() {
 		return gameActive;
+	}
+	
+	/**
+	 * @return true if the game has started (clicks != 0)
+	 */
+	public boolean hasStarted(){
+		return (clicks != 0);
 	}
 
 	private ArrayList<GameEndListener> listeners = new ArrayList<GameEndListener>();
@@ -433,13 +457,13 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		while (i.hasNext()) {
 			((GameEndListener) i.next()).handleEvent(event);
 		}
-		System.out.println(this);
-		System.out.println(testString());
+//		System.out.println(this);
+//		System.out.println(testString());
 	}
 
 	@Override
 	public void handleEvent(ClickedSpotEvent e) {
-//		startGame();
+		startGame();
 	}
 
 	/**

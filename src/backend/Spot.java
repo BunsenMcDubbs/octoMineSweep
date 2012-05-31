@@ -62,6 +62,7 @@ public class Spot {
 	 * toggles the flag
 	 */
 	public void toggleFlag(){
+		if(opened) return;
 		System.out.println("flag Toggled at " + loc);
 		flag = !flag;
 		fireEvent(false);
@@ -146,6 +147,16 @@ public class Spot {
 		}
 		
 		return getBombCount();
+	}
+	
+	public String status(){
+		String s = "";
+		
+		s += "Location: " + loc;
+		s += "\nisBomb: " + bomb;
+		s += "\nOpened: " + opened;
+		s += "\nflagged: " + flag;
+		return s;
 	}
 	
 	private ArrayList<ClickedSpotEventListener> listeners = new ArrayList<ClickedSpotEventListener>();

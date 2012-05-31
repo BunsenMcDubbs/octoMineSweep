@@ -139,7 +139,14 @@ public class MineFrame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("pause")){
 			game.stopGame();
+//			((JButton)e.getSource()).setText("Resume");
+//			((JButton)e.getSource()).setActionCommand("resume");
 		}
+//		else if(e.getActionCommand().equals("resume")){
+//			game.startGame();
+//			((JButton)e.getSource()).setText("Pause");
+//			((JButton)e.getSource()).setActionCommand("pause");
+//		}
 		else if(e.getActionCommand().equals("restart")){
 			game.stopGame();
 			if(game.isEnabled()){
@@ -153,6 +160,8 @@ public class MineFrame extends JFrame implements ActionListener{
 	}
 
 	private void restart() {
+		
+		System.out.println(game.status());
 		
 		remove(mF);
 		
@@ -170,6 +179,9 @@ public class MineFrame extends JFrame implements ActionListener{
 		Dimension temp = getSize();
 		setSize(0,0);
 		setSize(temp);
+		
+		System.out.println(game.status());
+		
 	}
 
 }
