@@ -76,6 +76,11 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		this(1);
 	}
 
+	/**
+	 * Initializes the Minesweeper game and all of its parts according to the
+	 * given difficulty setting
+	 * @param d - difficulty level, matched to EASY MEDIUM HARD
+	 */
 	private void init(int d) {
 		setDifficulty(d);
 
@@ -121,15 +126,27 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		gameActive = false;
 	}
 
+	/**
+	 * Private helper method setting up the timer
+	 */
 	private void timerSetup() {
 		time = 0;
 		timer = new Timer(100, this);
 	}
 
+	/**
+	 * Opens the spot specified with the x and y coordinates
+	 * @param x coordinate of the spot
+	 * @param y coordinate of the spot
+	 */
 	public void open(int x, int y) {
 		open(new Location(y, x));
 	}
 
+	/**
+	 * Opens the spot specified with the given location
+	 * @param location of the spot
+	 */
 	public void open(Location loc) {
 		if(!enabled)
 			return;
@@ -140,7 +157,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 					moveBomb(loc);
 			}
 			if (Spot.BOMB == grid.get(loc).open()) {
-				gameOver();
+				lose();
 				return;
 			}
 			clicks++;
@@ -150,16 +167,31 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		}
 	}
 	
+	/**
+	 * (Re)Starts the game, starting the timer and setting the gameActive
+	 * flag to true
+	 */
 	public void startGame(){
 		timer.start();
 		gameActive = true;
 	}
 	
+	/**
+	 * Stops the game, stopping the timer and setting the gameActive flag
+	 * to false
+	 */
 	public void stopGame(){
 		timer.stop();
 		gameActive = false;
 	}
 
+	/**
+	 * Private helper method for moving the bomb at the given location if
+	 * the player clicks on it on the first move since that is not allowed
+	 * in the game rules. The method moves the bomb to a location that isnt
+	 * already a bomb.
+	 * @param location of the bomb to be moved
+	 */
 	private void moveBomb(Location loc) {
 		System.out.println("Moved bomb, whew dodged a bullet (mine) there");
 		Location newLoc = new Location(0, 0);
@@ -172,6 +204,11 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		((Spot) (grid.get(newLoc))).setBomb(true);
 	}
 
+	/**
+	 * Returns true if all the spots that aren't bombs have been opened
+	 * and the game is finished.
+	 * @return If the game as finished (the player has won)
+	 */
 	private boolean hasFinished() {
 		for (int r = 0; r < grid.getNumRows(); r++) {
 			for (int c = 0; c < grid.getNumCols(); c++) {
@@ -186,43 +223,85 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		return true;
 	}
 	
+	/**
+	 * Returns true if the game is enabled (the game hasn't ended)
+	 * Only returns false if the player has won the game or a bomb
+	 * has been clicked and the player lost
+	 * @return
+	 */
 	public boolean isEnabled(){
 		return enabled;
 	}
 
+	/**
+	 * Returns the BoundedGrid holding all the spots in the game
+	 * @return
+	 */
 	public BoundedGrid<Spot> getGrid() {
 		return grid;
 	}
 
+	/**
+	 * Returns the current difficulty level of the game
+	 * @return
+	 */
 	public int getDifficulty() {
 		return difficulty;
 	}
 
+	/**
+	 * Sets the difficulty level of the game
+	 * @param d
+	 */
 	private void setDifficulty(int d) {
 		difficulty = d;
 	}
 	
+	/**
+	 * Restarts the game with a new difficulty level. If the "level" is
+	 * 0 then the game resets with the current difficulty level.
+	 * @param d
+	 */
 	public void resetGame(int d){
+		if(d == 0)
+			d = getDifficulty();
 		init(d);
 	}
 
+	/**
+	 * Returns the timer of the game
+	 * @return
+	 */
 	public Timer getTimer() {
 		return timer;
 	}
 
+	/**
+	 * Returns the time as an integer in tenths of a second
+	 * @return
+	 */
 	public int getTime() {
 		return time;
 	}
 
+	/**
+	 * Private helper method if the player has won the game
+	 */
 	private void win() {
 		fireEvent(true);
 	}
 
-	private void gameOver() {
+	/**
+	 * Private helper method if the player has lost the game
+	 */
+	private void lose() {
 		fireEvent(false);
 	}
 
-	private void revealAll() {
+	/**
+	 * Reveals all the bombs in the game
+	 */
+	private void revealAllBombs() {
 		for (int r = 0; r < grid.getNumRows(); r++) {
 			for (int c = 0; c < grid.getNumCols(); c++) {
 				if(grid.get(new Location(r,c)).isBomb())
@@ -231,6 +310,9 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		}
 	}
 
+	/**
+	 * Returns a string representation of the game
+	 */
 	public String toString() {
 		String s = "Minesweeper\n";
 		s += "+";
@@ -262,6 +344,10 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		return s;
 	}
 
+	/**
+	 * Returns a String representation of the game with all the spots opened
+	 * @return
+	 */
 	public String testString() {
 		String s = "TestMinesweeper\n";
 		s += "+";
@@ -291,6 +377,10 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		return s;
 	}
 
+	/**
+	 * Increments the time to keep track of the amount of time
+	 * the current game is taking (in tenths of a second)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == timer) {
@@ -298,29 +388,42 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		}
 	}
 
+	/**
+	 * @return if the game is currently active
+	 */
 	public boolean isActive() {
 		return gameActive;
 	}
 
 	private ArrayList<GameEndListener> listeners = new ArrayList<GameEndListener>();
 
+	/**
+	 * Adds a GameEndListener to the game
+	 * @param listener
+	 */
 	public synchronized void addEventListener(GameEndListener listener) {
 		listeners.add(listener);
 	}
 
+	/**
+	 * Removes a GameEndListener from the list of listeners
+	 * @param listener
+	 */
 	public synchronized void removeEventListener(GameEndListener listener) {
 		listeners.remove(listener);
 	}
 
-	// call this method whenever you want to notify
-	// the event listeners of the particular event
+	/**
+	 * Fires an GameEndEvent to all the listeners when the game has ended.
+	 * @param win - whether or not the player won the game
+	 */
 	private synchronized void fireEvent(boolean win) {
 		if(win){
 			System.out.println("WINNER WINNER CHICKEN DINNER");
 		}
 		else{
 			System.out.println("GAME OVER");
-			revealAll();
+			revealAllBombs();
 		}
 		gameActive = false;
 		enabled = false;
