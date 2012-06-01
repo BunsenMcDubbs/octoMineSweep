@@ -18,18 +18,32 @@ import backend.*;
 import backend.event.GameEndEvent;
 import backend.event.GameEndListener;
 
+/**
+ * 
+ * @author Andrew Dai
+ *
+ */
+
 @SuppressWarnings("serial")
 public class MineField extends JPanel implements GameEndListener,
 		MouseListener {
 
 	private Minesweeper game;
 
+	/**
+	 * Constructor for MineField that takes a Minesweeper game to
+	 * represent
+	 * @param game
+	 */
 	public MineField(Minesweeper game) {
 		setGame(game);
 		setUp();
 		addMouseListener(this);
 	}
 
+	/**
+	 * Helper method to setup the MineField
+	 */
 	private void setUp() {
 
 		BoundedGrid<Spot> grid = game.getGrid();
@@ -52,6 +66,7 @@ public class MineField extends JPanel implements GameEndListener,
 
 		setSize(wid, len);
 		setMinimumSize(getSize());
+		setPreferredSize(getSize());
 	}
 
 	public void setGame(Minesweeper g) {

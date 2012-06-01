@@ -1,6 +1,7 @@
 package frontend;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -32,7 +33,7 @@ import backend.event.GameEndListener;
 public class MineSpot extends JComponent implements 
 	MouseListener, ClickedSpotEventListener, GameEndListener {
 
-	public static final int SIZE = 40;
+	public static final int SIZE = 30;
 	public static final Color HIGHLIGHT = Color.CYAN;
 	public static final Color CLOSED = Color.GRAY;
 	public static final Color FLAG = Color.YELLOW;
@@ -57,8 +58,11 @@ public class MineSpot extends JComponent implements
 		game.addEventListener(this);
 		enabled = true;
 		highlight = false;
+		setSize(new Dimension(SIZE, SIZE));
+		setPreferredSize(getSize());
+		setMinimumSize(getSize());
 	}
-
+ 
 	/**
 	 * Sets the minesweeper game to the given game
 	 * @param m

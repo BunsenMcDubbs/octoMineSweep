@@ -22,28 +22,28 @@ import javax.swing.Timer;
 
 import backend.*;
 
-public class MineFrame extends JFrame implements ActionListener{
-	
+public class MineFrame extends JFrame implements ActionListener {
+
 	public static final Color bg = Color.DARK_GRAY;
-	
+
 	private Minesweeper game;
 	private JPanel info;
-	
+
 	private MineField mF;
-	
-	public MineFrame(){
+
+	public MineFrame() {
 		super("Minesweeper");
 		setTitle("Minesweeper");
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		init();
-		
+
 		setVisible(true);
-		
+
 	}
-	
-	private void init (){
+
+	private void init() {
 		backend();
 		selector();
 		minefield();
@@ -56,46 +56,56 @@ public class MineFrame extends JFrame implements ActionListener{
 		JMenuBar jmb = new JMenuBar();
 		JMenu gameOptions = new JMenu("Game");
 		JMenu highscores = new JMenu("Highscores");
-		
+
 		jmb.add(gameOptions);
 		jmb.add(highscores);
-		
+
 		JMenuItem newGame = new JMenuItem("New Game");
 		JMenuItem cDiff = new JMenuItem("Change Difficulty");
 		JMenuItem pause = new JMenuItem("Pause");
-		
+
+		newGame.setActionCommand("restart");
+		cDiff.setActionCommand("change diff");
+		pause.setActionCommand("pause");
+
+		newGame.addActionListener(this);
+		cDiff.addActionListener(this);
+		pause.addActionListener(this);
+
 		gameOptions.add(newGame);
 		gameOptions.add(cDiff);
 		gameOptions.add(pause);
-		
+
 		setJMenuBar(jmb);
 	}
 
 	private void infoPanel() {
 		info = new JPanel(new BorderLayout());
-		//Adding the TimerDisplay to the top
+		// Adding the TimerDisplay to the top
 		info.add(new TimeDisplay(game), BorderLayout.CENTER);
-		
+
 		JButton pause = new JButton("Pause");
 		JButton restart = new JButton("Restart");
 		pause.setActionCommand("pause");
 		restart.setActionCommand("restart");
 		pause.addActionListener(this);
 		restart.addActionListener(this);
-		
+
 		info.add(pause, BorderLayout.EAST);
 		info.add(restart, BorderLayout.WEST);
-		
+
 		add(info, BorderLayout.NORTH);
 	}
 
 	private void setSize() {
-		Dimension s = new Dimension(mF.getSize().width, mF.getSize().height + TimeDisplay.TEXT_HEIGHT + 20);
-		setSize(s);
+		// Dimension s = new Dimension(mF.getSize().width, mF.getSize().height +
+		// TimeDisplay.TEXT_HEIGHT + 20);
+		// setSize(s);
+		pack();
 		setResizable(false);
 	}
-	
-	private void backend(){
+
+	private void backend() {
 		backend(1);
 	}
 
@@ -105,7 +115,7 @@ public class MineFrame extends JFrame implements ActionListener{
 	}
 
 	private void selector() {
-//		JOptionPane.
+		// JOptionPane.
 	}
 
 	private void minefield() {
@@ -113,19 +123,19 @@ public class MineFrame extends JFrame implements ActionListener{
 		add(mF, BorderLayout.CENTER);
 		repaint();
 	}
-	
-	public Minesweeper getGame(){
+
+	public Minesweeper getGame() {
 		return game;
 	}
-	
-	public void setGame(Minesweeper m){
+
+	public void setGame(Minesweeper m) {
 		game = m;
 	}
-	
-	public MineField getField(){
+
+	public MineField getField() {
 		return mF;
 	}
-	
+
 	public void setDifficulty(int d) {
 		// TODO bugs with refreshing and generating new displays
 		Minesweeper newGame = new Minesweeper(d);
@@ -137,50 +147,57 @@ public class MineFrame extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("pause")){
+		if (e.getActionCommand().equalsIgnoreCase("pause")) {
 			game.stopGame();
-//			((JButton)e.getSource()).setText("Resume");
-//			((JButton)e.getSource()).setActionCommand("resume");
-		}
-//		else if(e.getActionCommand().equals("resume")){
-//			game.startGame();
-//			((JButton)e.getSource()).setText("Pause");
-//			((JButton)e.getSource()).setActionCommand("pause");
-//		}
-		else if(e.getActionCommand().equals("restart")){
+		} else if (e.getActionCommand().equalsIgnoreCase("restart")) {
 			game.stopGame();
-			if(game.isEnabled()){
-				if(JOptionPane.showConfirmDialog(this, "Are you sure you want to restart the game?",
-					"Restart", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+			if (game.isEnabled()) {
+				if (JOptionPane.showConfirmDialog(this,
+						"Are you sure you want to restart the game?",
+						"Restart", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
 					restart();
-			}
-			else
+			} else
 				restart();
+		} else if (e.getActionCommand().equalsIgnoreCase("change diff")) {
+
 		}
 	}
 
-	private void restart() {
+	private void restart(int d) {
+		
+		if(d == 0){
+			d = game.getDifficulty();
+		}
+		else if(d != (1 | 2 | 3)){
+			return;
+		}
 		
 		System.out.println(game.status());
-		
+
 		remove(mF);
-		
-		backend();
+
+		backend(d);
 		minefield();
-		
+
 		Component[] infoParts = info.getComponents();
-		for(Component c : infoParts){
-			if(c instanceof TimeDisplay){
+		for (Component c : infoParts) {
+			if (c instanceof TimeDisplay) {
 				((TimeDisplay) c).setGame(game);
 				break;
 			}
 		}
-		
+
 		Dimension temp = getSize();
-		setSize(0,0);
+		setSize(0, 0);
 		setSize(temp);
-		
+
 		System.out.println(game.status());
+
+	}
+
+	private void restart() {
+		
+		restart(0);
 		
 	}
 
