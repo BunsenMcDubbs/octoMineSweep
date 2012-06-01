@@ -263,21 +263,22 @@ public class MineSpot extends JComponent implements
 			for( Spot s : game.getGrid().getNeighbors(spot.loc)){
 				System.out.println(game.getGrid().get(s.loc).status());
 				game.open(s.loc);
-				if(s.isBomb()) return;
+//				if(s.isBomb()) return;
 			}
 		}
 		else if(SwingUtilities.isLeftMouseButton(e)){
 			System.out.println("Left Click");
 			if(!spot.isFlagged()){
-				System.out.println("open");
+				System.out.println("open\n");
 				game.open(spot.loc);
 			}
 		}
 		else if (SwingUtilities.isRightMouseButton(e) && game.hasStarted()){
 			System.out.println("Right Click");
-			if(!spot.isOpen())
-				System.out.println("flagged");
+			if(!spot.isOpen()){
+				System.out.println("flagged\n");
 				spot.toggleFlag();
+			}
 		}
 		else {
 			System.out.println("Fail Click\n");
