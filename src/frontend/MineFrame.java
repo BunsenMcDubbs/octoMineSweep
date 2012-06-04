@@ -46,7 +46,6 @@ public class MineFrame extends JFrame implements ActionListener {
 
 	private void init() {
 		backend();
-		selector();
 		minefield();
 		infoPanel();
 		menubar();
@@ -99,9 +98,10 @@ public class MineFrame extends JFrame implements ActionListener {
 	}
 
 	private void setSize() {
-		Dimension s = new Dimension(mF.getSize().width, mF.getSize().height +
-		TimeDisplay.TEXT_HEIGHT + 20);
-		setSize(s);
+		setResizable(true);
+//		Dimension s = new Dimension(mF.getSize().width, mF.getSize().height +
+//		TimeDisplay.TEXT_HEIGHT + 20);
+//		setSize(s);
 		
 		//------------------------------
 		
@@ -118,13 +118,10 @@ public class MineFrame extends JFrame implements ActionListener {
 		System.out.println(game.testString());
 	}
 
-	private void selector() {
-		// JOptionPane.
-	}
-
 	private void minefield() {
-		mF = new MineField(game);
-		add(mF, BorderLayout.CENTER);
+		MineField m = new MineField(game);
+		add(m, BorderLayout.CENTER);
+		mF = m;
 		repaint();
 	}
 
@@ -163,6 +160,7 @@ public class MineFrame extends JFrame implements ActionListener {
 			} else
 				restart();
 		} else if (e.getActionCommand().equalsIgnoreCase("change diff")) {
+			game.stopGame();
 			restart(changeDifficulty(false));
 		}
 	}
@@ -223,10 +221,11 @@ public class MineFrame extends JFrame implements ActionListener {
 				break;
 			}
 		}
-
+		
 		Dimension temp = getSize();
 		setSize(0, 0);
 		setSize(temp);
+		setSize();
 
 		System.out.println(game.status());
 

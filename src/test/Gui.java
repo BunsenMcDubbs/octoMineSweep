@@ -19,9 +19,9 @@ public class Gui {
 		System.out.println(JOptionPane.CANCEL_OPTION);
 		MineFrame m = new MineFrame();
 		
-//		for( Component c : m.getField().getComponents())
-//			if(!((MineSpot)c).getSpot().isBomb())
-//				m.getGame().open(((MineSpot)c).getSpot().loc);
+		for( Component c : m.getField().getComponents())
+			if(!((MineSpot)c).getSpot().isBomb())
+				m.getGame().open(((MineSpot)c).getSpot().loc);
 		
 //		System.out.println(m.getGame().testString());
 	}

@@ -25,6 +25,7 @@ import backend.event.GameEndListener;
  * extends JComponent. It is a square block set to certain colors
  * depending on the conditions or with the number of bombs around it
  * if it is opened.
+ * It contains code from <a href="http://leepoint.net/notes-java/GUI-appearance/fonts/18font.html">Copyright 2003 Fred Swartz MIT License</a>
  * @author Andrew Dai (BunsenMcdubbs)
  *
  */

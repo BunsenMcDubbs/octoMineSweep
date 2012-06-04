@@ -1,7 +1,5 @@
-Images for the bombs and other icons
 Flag counter
-level selector
 color scheme
-eliminate pause button
 highscore display
-menubar working
+resizing issues
+fix click+drag issues

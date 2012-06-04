@@ -19,14 +19,15 @@ import backend.event.GameEndEvent;
 import backend.event.GameEndListener;
 
 /**
- * 
+ * MineField is a graphical, interactive representation of the Minesweeper game and
+ * the <code>Minesweeper</code> backend. It contains other components (MineSpots)
+ * to represent each spot on the board.
  * @author Andrew Dai
  *
  */
 
 @SuppressWarnings("serial")
-public class MineField extends JPanel implements GameEndListener,
-		MouseListener {
+public class MineField extends JPanel implements GameEndListener{
 
 	private Minesweeper game;
 
@@ -38,7 +39,6 @@ public class MineField extends JPanel implements GameEndListener,
 	public MineField(Minesweeper game) {
 		setGame(game);
 		setUp();
-		addMouseListener(this);
 	}
 
 	/**
@@ -60,6 +60,10 @@ public class MineField extends JPanel implements GameEndListener,
 
 	}
 
+	/**
+	 * Helper method to set the size of the component after the game has
+	 * been initialized.
+	 */
 	private void setSize() {
 		int wid = game.getGrid().getNumCols() * MineSpot.SIZE;
 		int len = game.getGrid().getNumRows() * MineSpot.SIZE;
@@ -69,10 +73,17 @@ public class MineField extends JPanel implements GameEndListener,
 		setPreferredSize(getSize());
 	}
 
+	/**
+	 * Setter for the Minesweeper game
+	 * @param minesweeper game to run the backend
+	 */
 	public void setGame(Minesweeper g) {
 		game = g;
 	}
 
+	/**
+	 * Handler for when the game ends
+	 */
 	@Override
 	public void handleEvent(GameEndEvent e) {
 		repaint();
@@ -91,25 +102,4 @@ public class MineField extends JPanel implements GameEndListener,
 		}
 
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-	}
-
 }

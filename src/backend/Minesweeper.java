@@ -461,6 +461,9 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 //		System.out.println(testString());
 	}
 
+	/**
+	 * Restarts the game after a click is detected
+	 */
 	@Override
 	public void handleEvent(ClickedSpotEvent e) {
 		startGame();
