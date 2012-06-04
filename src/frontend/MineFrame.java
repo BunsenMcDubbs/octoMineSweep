@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -98,15 +99,18 @@ public class MineFrame extends JFrame implements ActionListener {
 	}
 
 	private void setSize() {
-		// Dimension s = new Dimension(mF.getSize().width, mF.getSize().height +
-		// TimeDisplay.TEXT_HEIGHT + 20);
-		// setSize(s);
+		Dimension s = new Dimension(mF.getSize().width, mF.getSize().height +
+		TimeDisplay.TEXT_HEIGHT + 20);
+		setSize(s);
+		
+		//------------------------------
+		
 		pack();
 		setResizable(false);
 	}
 
 	private void backend() {
-		backend(1);
+		backend(changeDifficulty(true));
 	}
 
 	private void backend(int d) {
@@ -159,19 +163,52 @@ public class MineFrame extends JFrame implements ActionListener {
 			} else
 				restart();
 		} else if (e.getActionCommand().equalsIgnoreCase("change diff")) {
-
+			restart(changeDifficulty(false));
 		}
 	}
 
-	private void restart(int d) {
+	private int changeDifficulty(boolean newGame){
+		String title = "Choose Difficulty Level";
 		
-		if(d == 0){
-			d = game.getDifficulty();
+		String[] options = new String[5];
+		if(newGame)
+			options = new String[4];
+		options[0] = "Easy";
+		options[1] = "Medium";
+		options[2] = "Hard";
+		options[3] = "Custom";
+		if(!newGame)
+			options[4] = "Cancel";
+		
+		JOptionPane pane = new JOptionPane(title,
+				JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION,
+				null, options);
+		if(!newGame)
+			pane.setInitialSelectionValue(options[4]);
+		JDialog dialog = pane.createDialog(this, title);
+		dialog.setVisible(true);
+		Object selectedValue = pane.getValue();
+		if(selectedValue == null)
+			return 0;
+		if(!newGame && selectedValue == options[4])
+			return 0;
+		for(int counter = 0, maxCounter = options.length;
+		   counter < maxCounter; counter++) {
+		   if(options[counter].equals(selectedValue))
+			   return ++counter;
 		}
-		else if(d != (1 | 2 | 3)){
+		return 0;
+
+	}
+
+	private void restart(int d) {
+
+		if (d == 0) {
+			d = game.getDifficulty();
+		} else if (d != (1 | 2 | 3)) {
 			return;
 		}
-		
+
 		System.out.println(game.status());
 
 		remove(mF);
@@ -196,9 +233,9 @@ public class MineFrame extends JFrame implements ActionListener {
 	}
 
 	private void restart() {
-		
+
 		restart(0);
-		
+
 	}
 
 }

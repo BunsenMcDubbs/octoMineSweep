@@ -56,7 +56,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	/**
 	 * Custom difficulty level defined elsewhere
 	 */
-	public static final int CUSTOM = 0;
+	public static final int CUSTOM = 4;
 
 	/**
 	 * Constructor for the game that takes an integer to define the difficulty

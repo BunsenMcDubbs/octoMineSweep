@@ -4,6 +4,7 @@ import info.gridworld.grid.Location;
 
 import java.awt.Component;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import backend.*;
@@ -15,9 +16,8 @@ public class Gui {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println(JOptionPane.CANCEL_OPTION);
 		MineFrame m = new MineFrame();
-//		 TODO fix updating difficulty/new game refreshing functionality
-//		mF.setDifficulty(1);
 		
 //		for( Component c : m.getField().getComponents())
 //			if(!((MineSpot)c).getSpot().isBomb())
