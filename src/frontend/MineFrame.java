@@ -99,12 +99,6 @@ public class MineFrame extends JFrame implements ActionListener {
 
 	private void setSize() {
 		setResizable(true);
-//		Dimension s = new Dimension(mF.getSize().width, mF.getSize().height +
-//		TimeDisplay.TEXT_HEIGHT + 20);
-//		setSize(s);
-		
-		//------------------------------
-		
 		pack();
 		setResizable(false);
 	}
@@ -188,18 +182,17 @@ public class MineFrame extends JFrame implements ActionListener {
 		Object selectedValue = pane.getValue();
 		if(selectedValue == null)
 			return 0;
-		if(!newGame && selectedValue == options[4])
+		if(selectedValue.equals("Cancel"))
 			return 0;
-		for(int counter = 0, maxCounter = options.length;
-		   counter < maxCounter; counter++) {
-		   if(options[counter].equals(selectedValue))
-			   return ++counter;
-		}
+		if (selectedValue.equals("Easy")) return 1;
+		if (selectedValue.equals("Medium")) return 2;
+		if (selectedValue.equals("Hard")) return 3;
+		if (selectedValue.equals("Custom")) return 4;
 		return 0;
 
 	}
 
-	private void restart(int d) {
+	public void restart(int d) {
 
 		if (d == 0) {
 			d = game.getDifficulty();
@@ -222,9 +215,6 @@ public class MineFrame extends JFrame implements ActionListener {
 			}
 		}
 		
-		Dimension temp = getSize();
-		setSize(0, 0);
-		setSize(temp);
 		setSize();
 
 		System.out.println(game.status());

@@ -96,7 +96,7 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 			bombs = 40;
 			break;
 		case HARD:
-			grid = new BoundedGrid<Spot>(30, 16);
+			grid = new BoundedGrid<Spot>(16, 30);
 			bombs = 99;
 			break;
 		default:

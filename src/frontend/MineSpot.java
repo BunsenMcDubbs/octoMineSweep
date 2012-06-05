@@ -263,7 +263,14 @@ public class MineSpot extends JComponent implements
 		
 		System.out.println(status());
 		
-		if(e.getModifiersEx() == 5120 && spot.isOpen()){
+		int flags = 0;
+		for(Spot s : game.getGrid().getNeighbors(spot.loc)){
+			if (s.isFlagged())
+				flags++;
+		}
+		boolean allFlagged = (flags == spot.getState());
+		
+		if(e.getModifiersEx() == 5120 && spot.isOpen() && allFlagged){
 			System.out.println("Dual Click");
 			for( Spot s : game.getGrid().getNeighbors(spot.loc)){
 				System.out.println(game.getGrid().get(s.loc).status());

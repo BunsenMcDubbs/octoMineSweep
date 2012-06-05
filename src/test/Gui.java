@@ -23,6 +23,8 @@ public class Gui {
 			if(!((MineSpot)c).getSpot().isBomb())
 				m.getGame().open(((MineSpot)c).getSpot().loc);
 		
+		m.restart(2);
+		
 //		System.out.println(m.getGame().testString());
 	}
 
