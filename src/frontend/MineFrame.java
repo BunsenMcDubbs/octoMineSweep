@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
+import javax.management.InvalidAttributeValueException;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -108,8 +110,68 @@ public class MineFrame extends JFrame implements ActionListener {
 	}
 
 	private void backend(int d) {
-		setGame(new Minesweeper(d));
+		if(d == 4){
+			setGame(customBackend());
+		}
+		else{
+			setGame(new Minesweeper(d));
+		}
 		System.out.println(game.testString());
+	}
+
+	private Minesweeper customBackend() {
+		Minesweeper game = null;
+		int rows = 0, columns = 0, bombs = 0;
+		boolean works = true;
+		boolean isNumber = true;
+		do {
+			works = true;
+			do {
+				isNumber = true;
+				try {
+					String sRows = (String) JOptionPane.showInputDialog(this,
+							"Number of rows", "Custom Game",
+							JOptionPane.QUESTION_MESSAGE);
+					rows = Integer.parseInt(sRows);
+				} catch (NumberFormatException e) {
+					System.out.println("fail");
+					isNumber = false;
+				}
+				System.out.println(isNumber);
+			} while (!isNumber);
+			do {
+				isNumber = true;
+				try {
+					String sColumns = (String) JOptionPane.showInputDialog(
+							this, "Number of columns", "Custom Game",
+							JOptionPane.QUESTION_MESSAGE);
+					columns = Integer.parseInt(sColumns);
+				} catch (NumberFormatException e) {
+					isNumber = false;
+				}
+			} while (!isNumber);
+			do {
+				isNumber = true;
+				try {
+					String sBombs = (String) JOptionPane.showInputDialog(this,
+							"Number of bombs", "Custom Game",
+							JOptionPane.QUESTION_MESSAGE);
+					bombs = Integer.parseInt(sBombs);
+				} catch (NumberFormatException e) {
+					isNumber = false;
+				}
+			} while (!isNumber);
+			try{
+				System.out.println(rows);
+				System.out.println(columns);
+				System.out.println(bombs);
+				game = new Minesweeper(rows, columns, bombs);
+			} catch(InvalidAttributeValueException e){
+				works = false;
+				System.out.println(e.getMessage());
+			}
+		} while (!works);
+		return game;
 	}
 
 	private void minefield() {
@@ -132,7 +194,6 @@ public class MineFrame extends JFrame implements ActionListener {
 	}
 
 	public void setDifficulty(int d) {
-		// TODO bugs with refreshing and generating new displays
 		Minesweeper newGame = new Minesweeper(d);
 		setGame(newGame);
 		remove(mF);
@@ -193,14 +254,14 @@ public class MineFrame extends JFrame implements ActionListener {
 	}
 
 	public void restart(int d) {
-
+		
+		System.out.println("\n\nCHANGE DIFFICULTY TO " + d + "\n\n\n");
+		
 		if (d == 0) {
 			d = game.getDifficulty();
-		} else if (d != (1 | 2 | 3)) {
-			return;
 		}
 
-		System.out.println(game.status());
+		System.out.println("Current Game status:\n" + game.status());
 
 		remove(mF);
 
@@ -217,7 +278,7 @@ public class MineFrame extends JFrame implements ActionListener {
 		
 		setSize();
 
-		System.out.println(game.status());
+		System.out.println("NEW Game status:\n" + game.status());
 
 	}
 

@@ -70,6 +70,7 @@ public class MineField extends JPanel implements GameEndListener{
 
 		setSize(wid, len);
 		setMinimumSize(getSize());
+		setMaximumSize(getSize());
 		setPreferredSize(getSize());
 	}
 

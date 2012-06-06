@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.management.InvalidAttributeValueException;
 import javax.swing.Timer;
 
 import frontend.TimeDisplay;
@@ -62,12 +63,52 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	 * Constructor for the game that takes an integer to define the difficulty
 	 * level of the game.
 	 * 
-	 * @param difficulty
+	 * @param difficulty level for the game
 	 */
 	public Minesweeper(int difficulty) {
 		init(difficulty);
 		timerSetup();
 		enabled = true;
+	}
+	
+	/**
+	 * Custom game constructor for minesweeper that takes a row & column count
+	 * to define a custom size board and a number of bombs to put in the board
+	 * @param rows - number of rows in the board
+	 * @param columns - number of columns in the board
+	 * @param bombs - number of bombs in the board
+	 * @throws InvalidAttributeValueException when the number of bombs is more
+	 * than one less than the number of spots on the board
+	 */
+	public Minesweeper(int rows, int columns, int bombs) throws InvalidAttributeValueException{
+		customInit(rows, columns, bombs);
+		timerSetup();
+		enabled = true;
+	}
+
+	/**
+	 * Private helper method to setup a custom Minesweeper game
+	 * @param rows - number of rows in the board
+	 * @param columns - number of columns in the board
+	 * @param bombs - number of bombs in the board
+	 * @throws InvalidAttributeValueException when the number of bombs is more
+	 * than one less than the number of spots on the board
+	 */
+	private void customInit(int rows, int columns, int bombs)
+		throws InvalidAttributeValueException{
+		
+		if((rows * columns) <= bombs)
+			throw new InvalidAttributeValueException("There are too many bombs\n"
+				+ "The maximum allowed for a board of size: "
+				+ columns + ", " + rows + " is " + (rows * columns-1));
+		else if(bombs < 0){
+			throw new InvalidAttributeValueException("There cannot be less than zero bombs");
+		}
+		
+		grid = new BoundedGrid<Spot>(rows, columns);
+		this.bombs = bombs;
+		
+		init(CUSTOM);
 	}
 
 	/**
@@ -98,6 +139,8 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 		case HARD:
 			grid = new BoundedGrid<Spot>(16, 30);
 			bombs = 99;
+			break;
+		case CUSTOM:
 			break;
 		default:
 			bombs = 0;
