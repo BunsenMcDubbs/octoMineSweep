@@ -285,7 +285,7 @@ public class MineSpot extends JComponent implements
 				game.open(spot.loc);
 			}
 		}
-		else if (SwingUtilities.isRightMouseButton(e) && game.hasStarted()){
+		else if (SwingUtilities.isRightMouseButton(e)){
 			System.out.println("Right Click");
 			if(!spot.isOpen()){
 				System.out.println("flagged\n");

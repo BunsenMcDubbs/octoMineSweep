@@ -509,6 +509,8 @@ public class Minesweeper implements ActionListener, ClickedSpotEventListener {
 	 */
 	@Override
 	public void handleEvent(ClickedSpotEvent e) {
+		if (e.getStatus() == e.FLAG && clicks == 0)
+			return;
 		startGame();
 	}
 

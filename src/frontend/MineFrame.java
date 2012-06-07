@@ -113,6 +113,12 @@ public class MineFrame extends JFrame implements ActionListener {
 		if(d == 4){
 			setGame(customBackend());
 		}
+		else if(d == -1){
+			if(game != null)
+				return;
+			backend(changeDifficulty(game == null));
+			return;
+		}
 		else{
 			setGame(new Minesweeper(d));
 		}
@@ -223,33 +229,33 @@ public class MineFrame extends JFrame implements ActionListener {
 	private int changeDifficulty(boolean newGame){
 		String title = "Choose Difficulty Level";
 		
-		String[] options = new String[5];
+		String[] options = new String[4];
 		if(newGame)
-			options = new String[4];
+			options = new String[3];
 		options[0] = "Easy";
 		options[1] = "Medium";
 		options[2] = "Hard";
-		options[3] = "Custom";
+//		options[3] = "Custom";
 		if(!newGame)
-			options[4] = "Cancel";
+			options[3] = "Cancel";
 		
 		JOptionPane pane = new JOptionPane(title,
 				JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION,
 				null, options);
 		if(!newGame)
-			pane.setInitialSelectionValue(options[4]);
+			pane.setInitialSelectionValue(options[3]);
 		JDialog dialog = pane.createDialog(this, title);
 		dialog.setVisible(true);
 		Object selectedValue = pane.getValue();
 		if(selectedValue == null)
-			return 0;
+			return -1;
 		if(selectedValue.equals("Cancel"))
-			return 0;
+			return -1;
 		if (selectedValue.equals("Easy")) return 1;
 		if (selectedValue.equals("Medium")) return 2;
 		if (selectedValue.equals("Hard")) return 3;
-		if (selectedValue.equals("Custom")) return 4;
-		return 0;
+//		if (selectedValue.equals("Custom")) return 4;
+		return -1;
 
 	}
 
@@ -263,9 +269,11 @@ public class MineFrame extends JFrame implements ActionListener {
 
 		System.out.println("Current Game status:\n" + game.status());
 
-		remove(mF);
-
+		Minesweeper temp = game;
 		backend(d);
+		if(temp == game)
+			return;
+		remove(mF);
 		minefield();
 
 		Component[] infoParts = info.getComponents();

@@ -88,6 +88,7 @@ public class MineField extends JPanel implements GameEndListener{
 	@Override
 	public void handleEvent(GameEndEvent e) {
 		repaint();
+		
 		if (e.isWinner()) {
 			JOptionPane.showMessageDialog(this,
 					"The Mines have been Sweeped... you win\n"
