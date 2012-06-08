@@ -148,7 +148,7 @@ public class MineSpot extends JComponent implements
 			}
 		}
 		else{
-			if(highlight){
+			if(highlight && !spot.isFlagged()){
 				g2.setColor(HIGHLIGHT);
 			}
 			else if(spot.isFlagged()){
